@@ -27,7 +27,7 @@ type SizeSpec = {
 const SPECS: Record<ContentImageSize, SizeSpec> = {
   schedule: {
     frame: "mx-auto w-[7.25rem] shrink-0 sm:w-[7.5rem]",
-    box: "flex h-[7.25rem] w-[7.25rem] items-center justify-center sm:h-[7.5rem] sm:w-[7.5rem]",
+    box: "relative flex h-[7.25rem] w-[7.25rem] items-center justify-center sm:h-[7.5rem] sm:w-[7.5rem]",
     maxH: 108,
     maxW: 112,
     w: 120,
@@ -35,15 +35,15 @@ const SPECS: Record<ContentImageSize, SizeSpec> = {
   },
   scheduleCard: {
     frame: "w-full min-w-0",
-    box: "relative h-[14.5rem] w-full sm:h-[16.5rem] md:h-[18rem]",
+    box: "relative flex h-[14.5rem] w-full items-center justify-center sm:h-[16.5rem] md:h-[18rem]",
     maxH: 288,
-    maxW: 240,
+    maxW: 320,
     w: 480,
     h: 720,
   },
   schoolTeam: {
     frame: "w-full max-w-[10rem] sm:max-w-[11rem]",
-    box: "h-[10rem] w-full sm:h-[11rem]",
+    box: "relative flex h-[10rem] w-full items-center justify-center sm:h-[11rem]",
     maxH: 168,
     maxW: 176,
     w: 220,
@@ -51,23 +51,23 @@ const SPECS: Record<ContentImageSize, SizeSpec> = {
   },
   compact: {
     frame: "w-full max-w-[11rem] sm:max-w-[12.5rem]",
-    box: "h-[8.5rem] w-full sm:h-[9.5rem]",
+    box: "relative flex h-[8.5rem] w-full items-center justify-center sm:h-[9.5rem]",
     maxH: 152,
     maxW: 200,
     w: 280,
     h: 200,
   },
   sectionFill: {
-    frame: "mx-auto flex h-full w-full min-h-0 max-w-full flex-col sm:max-w-xs lg:max-w-sm",
-    box: "flex min-h-[14rem] w-full flex-1 items-center justify-center overflow-hidden p-3 lg:min-h-0",
-    maxH: -1,
-    maxW: -1,
+    frame: "mx-auto w-full max-w-md",
+    box: "relative flex h-56 w-full items-center justify-center p-3 sm:h-64 md:h-72",
+    maxH: 288,
+    maxW: 448,
     w: 360,
     h: 520,
   },
   feature: {
     frame: "w-full max-w-md",
-    box: "h-[13rem] w-full sm:h-[14.5rem]",
+    box: "relative flex h-[13rem] w-full items-center justify-center sm:h-[14.5rem]",
     maxH: 232,
     maxW: 448,
     w: 448,
@@ -75,7 +75,7 @@ const SPECS: Record<ContentImageSize, SizeSpec> = {
   },
   tile: {
     frame: "w-full",
-    box: "flex h-[12rem] w-full items-center justify-center sm:h-[13rem]",
+    box: "relative flex h-[12rem] w-full items-center justify-center sm:h-[13rem]",
     maxH: 188,
     maxW: 280,
     w: 400,
@@ -83,7 +83,7 @@ const SPECS: Record<ContentImageSize, SizeSpec> = {
   },
   default: {
     frame: "w-full max-w-lg",
-    box: "h-[11rem] w-full sm:h-[12rem]",
+    box: "relative flex h-[11rem] w-full items-center justify-center sm:h-[12rem]",
     maxH: 192,
     maxW: 384,
     w: 384,
@@ -91,7 +91,7 @@ const SPECS: Record<ContentImageSize, SizeSpec> = {
   },
   wide: {
     frame: "w-full max-w-2xl",
-    box: "h-[12rem] w-full sm:h-[14rem]",
+    box: "relative flex h-44 w-full items-center justify-center sm:h-52 md:h-56",
     maxH: 224,
     maxW: 672,
     w: 672,
@@ -131,30 +131,28 @@ export function ContentImage({
   const [loaded, setLoaded] = useState(false);
   const resolved = resolveImageSize(size, src);
   const spec = SPECS[resolved];
-  const fluid = spec.maxH < 0;
 
   return (
     <figure
-      className={`league-media mx-auto ${resolved === "sectionFill" ? "min-h-0 w-full" : "shrink-0"} ${spec.frame} ${frameClassName}`.trim()}
+      className={`league-media mx-auto ${resolved === "sectionFill" ? "min-w-0 w-full" : "shrink-0"} ${spec.frame} ${frameClassName}`.trim()}
       data-size={resolved}
     >
       <div
-        className={`relative overflow-hidden rounded-xl border border-electric-blue/25 bg-[#020a18]/80 ${fluid ? "p-3" : "p-2"} ${spec.box}`}
+        className={`overflow-hidden rounded-xl border border-electric-blue/25 bg-[#020a18]/80 p-2 ${spec.box}`}
       >
         <Image
           src={src}
           alt={alt}
-          fill
+          width={spec.w}
+          height={spec.h}
           priority={priority}
           onLoad={() => setLoaded(true)}
-          className={`object-contain object-center transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"} ${className}`}
-          sizes={
-            fluid
-              ? "(max-width: 1024px) 50vw, 360px"
-              : spec.maxW > 0
-                ? `(max-width: 768px) 90vw, ${spec.maxW}px`
-                : "(max-width: 768px) 90vw, 33vw"
-          }
+          className={`h-auto max-h-full w-auto max-w-full object-contain object-center transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"} ${className}`}
+          style={{
+            maxHeight: spec.maxH,
+            maxWidth: spec.maxW,
+          }}
+          sizes={`(max-width: 768px) 90vw, ${spec.maxW}px`}
         />
       </div>
     </figure>
@@ -177,7 +175,7 @@ export function ScheduleImageGrid({
   if (posterLayout === "page") {
     const colClass =
       images.length === 1
-        ? "grid-cols-1 max-w-[13rem] justify-items-stretch sm:max-w-none sm:justify-items-stretch"
+        ? "grid-cols-1 sm:max-w-sm"
         : images.length === 2
           ? "grid-cols-1 min-[420px]:grid-cols-2"
           : "grid-cols-1 min-[420px]:grid-cols-2 lg:grid-cols-3";
@@ -189,7 +187,7 @@ export function ScheduleImageGrid({
             src={src}
             alt={`${altPrefix} ${i + 1}`}
             size="scheduleCard"
-            frameClassName="!mx-0 w-full"
+            frameClassName="!mx-0 w-full max-w-none"
           />
         ))}
       </div>

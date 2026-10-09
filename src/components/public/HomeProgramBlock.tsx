@@ -26,7 +26,7 @@ export function HomeProgramBlock() {
               alt="P-O Select Elementary Basketball League program graphic"
               priority
               size="sectionFill"
-              frameClassName="!mx-0 h-full w-full"
+              frameClassName="!mx-0 w-full max-w-none"
             />
           </Reveal>
           <Reveal from="right" delay={0.08} className="order-1 flex min-w-0 flex-col justify-center lg:order-2">

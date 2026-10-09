@@ -107,12 +107,12 @@ export default async function HomePage() {
               Read more →
             </Link>
           </Reveal>
-          <Reveal from="right" className="min-w-0 lg:max-w-md lg:justify-self-end">
+          <Reveal from="right" className="min-w-0 w-full">
             <ContentImage
               src={MAIN_ABOUT_PICTURE}
               alt="P-O Select League — about us"
-              size="sectionFill"
-              frameClassName="!mx-0 w-full lg:h-full"
+              size="wide"
+              frameClassName="!mx-0 w-full max-w-none"
             />
           </Reveal>
         </div>
@@ -252,12 +252,12 @@ export default async function HomePage() {
                   Golden Ticket details
                 </Link>
               </div>
-              <div className="min-w-0 lg:max-w-md lg:ml-auto">
+              <div className="min-w-0 w-full lg:ml-auto lg:max-w-xl">
                 <ContentImage
                   src={GOLDEN_TICKET_PICTURE}
                   alt="Golden Ticket — state championship invite league"
-                  size="sectionFill"
-                  frameClassName="!mx-0 w-full"
+                  size="wide"
+                  frameClassName="!mx-0 w-full max-w-none"
                 />
               </div>
             </div>

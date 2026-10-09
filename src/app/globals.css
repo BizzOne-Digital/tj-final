@@ -47,10 +47,13 @@
   object-fit: contain !important;
 }
 
-/* Sized media components — fill frame without stretching */
-.league-media img[data-nimg="fill"] {
+/* Sized media components — preserve aspect ratio */
+.league-media img {
   object-fit: contain !important;
   object-position: center !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
 }
 
 html {

@@ -5,7 +5,8 @@ import { useState } from "react";
 import { Expand } from "lucide-react";
 
 /** Season poster file is 1024×552 (landscape). */
-const LANDSCAPE_POSTER_ASPECT = "1024 / 552";
+const POSTER_W = 1024;
+const POSTER_H = 552;
 
 export function PosterLightbox({
   src,
@@ -36,21 +37,22 @@ export function PosterLightbox({
         <div
           className={
             isLandscape
-              ? "relative w-full bg-[#020a18]/60 p-2 sm:p-3"
-              : "relative bg-[#020a18]/60 p-2"
+              ? "flex w-full items-center justify-center bg-[#020a18]/60 p-2 sm:p-3"
+              : "flex items-center justify-center bg-[#020a18]/60 p-2"
           }
           style={
             isLandscape
-              ? { aspectRatio: LANDSCAPE_POSTER_ASPECT }
-              : { height: previewMaxHeight, maxHeight: previewMaxHeight }
+              ? { aspectRatio: `${POSTER_W} / ${POSTER_H}` }
+              : { minHeight: previewMaxHeight, maxHeight: previewMaxHeight }
           }
         >
           <Image
             src={src}
             alt={alt}
-            fill
-            className="object-contain object-center p-1 transition duration-500 group-hover:scale-[1.02] sm:p-2"
-            sizes={isLandscape ? "(max-width: 1024px) 45vw, 520px" : "(max-width: 768px) 80vw, 320px"}
+            width={POSTER_W}
+            height={POSTER_H}
+            className="h-auto max-h-full w-full max-w-full object-contain object-center transition duration-500 group-hover:scale-[1.02]"
+            sizes={isLandscape ? "(max-width: 1024px) 90vw, 520px" : "(max-width: 768px) 80vw, 320px"}
           />
         </div>
         <span className="absolute bottom-2 right-2 inline-flex items-center gap-1 rounded-full bg-black/60 px-2 py-0.5 text-[10px] text-white">
@@ -74,8 +76,8 @@ export function PosterLightbox({
           <Image
             src={src}
             alt={alt}
-            width={1200}
-            height={650}
+            width={POSTER_W}
+            height={POSTER_H}
             className="max-h-[85vh] w-auto max-w-[min(92vw,960px)] object-contain"
           />
         </div>
