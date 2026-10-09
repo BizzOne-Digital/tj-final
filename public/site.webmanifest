@@ -1,0 +1,23 @@
+{
+  "name": "P-O Select Elementary Basketball League",
+  "short_name": "P-O Select",
+  "description": "Philipsburg-Osceola Select Elementary Basketball League",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020a18",
+  "theme_color": "#155eef",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
