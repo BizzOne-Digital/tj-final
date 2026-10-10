@@ -1,7 +1,9 @@
 ﻿import Link from "next/link";
 import { InnerPage } from "@/components/public/InnerPage";
 import { ContentImage } from "@/components/public/ContentImage";
+import { HubSections } from "@/components/public/HubSections";
 import { GOLDEN_TICKET_PICTURE } from "@/lib/drive-assets";
+import { goldenTicketWinnerBlocks } from "@/lib/hub-sections";
 
 export default function StateChampionshipPage() {
   return (
@@ -15,8 +17,6 @@ export default function StateChampionshipPage() {
           <Link href="/information" className="mt-6 inline-block text-electric-blue hover:underline">
             Forms &amp; important documents →
           </Link>
-          <h2 className="mt-12 font-display text-xl uppercase text-ice-white">Golden Ticket winners</h2>
-          <p className="mt-4 text-cool-grey">2026-27 season — 4th grade and 6th grade teams: Coming Soon!</p>
         </div>
         <ContentImage
           src={GOLDEN_TICKET_PICTURE}
@@ -24,6 +24,10 @@ export default function StateChampionshipPage() {
           size="feature"
           frameClassName="!mx-0 w-full max-w-none lg:ml-auto lg:max-w-md"
         />
+      </div>
+      <div className="mt-14">
+        <h2 className="font-display text-2xl font-bold uppercase text-gold">Golden Ticket winners</h2>
+        <HubSections blocks={goldenTicketWinnerBlocks()} />
       </div>
     </InnerPage>
   );

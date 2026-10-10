@@ -38,12 +38,12 @@
   display: block;
 }
 
-/* Poster lightbox thumbnail */
+/* League Information season poster — use full column width */
 .poster-preview img {
-  max-height: 14rem !important;
-  max-width: min(100%, 20rem) !important;
-  width: auto !important;
+  max-width: 100% !important;
+  width: 100% !important;
   height: auto !important;
+  max-height: none !important;
   object-fit: contain !important;
 }
 
@@ -54,6 +54,18 @@
   width: auto !important;
   height: auto !important;
   max-width: 100% !important;
+}
+
+/* Full-bleed frames (posters, directory logos, division banners) */
+.league-media[data-size="programPoster"] img,
+.league-media[data-size="certBadge"] img,
+.league-media[data-size="landscapePoster"] img,
+.league-media[data-size="schoolTeamDirectory"] img,
+.league-media[data-size="divisionBanner"] img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
 }
 
 html {

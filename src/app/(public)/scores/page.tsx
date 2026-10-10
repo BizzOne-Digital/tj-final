@@ -1,22 +1,17 @@
-﻿import { InnerPage } from "@/components/public/InnerPage";
-
-const WEEKS = ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6", "Week 7"];
+﻿import Link from "next/link";
+import { InnerPage } from "@/components/public/InnerPage";
+import { HubSections } from "@/components/public/HubSections";
+import { allStandingsHubBlocks } from "@/lib/hub-sections";
 
 export default function ScoresPage() {
   return (
-    <InnerPage title="Scores" subtitle="Weekly results — 2026-27 season">
-      <h2>4th grade</h2>
-      <ul>
-        {WEEKS.map((w) => (
-          <li key={`4-${w}`}>{w} scores — more information coming soon.</li>
-        ))}
-      </ul>
-      <h2 className="mt-10">6th grade</h2>
-      <ul>
-        {WEEKS.map((w) => (
-          <li key={`6-${w}`}>{w} scores — more information coming soon.</li>
-        ))}
-      </ul>
+    <InnerPage title="Scores" subtitle="Weekly scores by grade and season">
+      <p className="mb-6 text-sm text-cool-grey">
+        Week-by-week scores are listed under each season on the{" "}
+        <Link href="/standings" className="text-electric-blue hover:underline">standings page</Link>
+        . Jump to a week below:
+      </p>
+      <HubSections blocks={allStandingsHubBlocks()} />
     </InnerPage>
   );
 }

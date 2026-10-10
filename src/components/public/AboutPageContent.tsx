@@ -43,10 +43,10 @@ export function AboutPageContent({
           <div className="gradient-card overflow-hidden rounded-2xl p-2 ring-1 ring-electric-blue/25">
             <ContentImage
               src={MAIN_ABOUT_PICTURE}
-              alt="P-O Select League — about us"
-              size="feature"
+              alt="P-O Select League — 2026-27 season state championship invite poster"
+              size="landscapePoster"
               priority
-              frameClassName="!mx-0 w-full max-w-none"
+              frameClassName="!mx-0 mx-auto w-full max-w-sm md:max-w-md"
             />
           </div>
         </Reveal>
@@ -139,29 +139,29 @@ export function AboutPageContent({
             <Camera className="h-7 w-7 shrink-0 text-electric-blue/35" aria-hidden />
           </div>
         </Reveal>
-        <div className="mt-6 grid min-w-0 gap-3 sm:grid-cols-2 lg:grid-cols-5 lg:gap-4">
-          <Reveal className="min-w-0 sm:col-span-2 lg:col-span-3">
+        <div className="mt-6 grid min-w-0 gap-4 lg:grid-cols-5 lg:gap-4">
+          <Reveal className="min-w-0 lg:col-span-3">
             <ContentImage
               src={MAIN_ABOUT_PICTURE}
-              alt="P-O Select League feature"
-              size="wide"
+              alt="P-O Select League — season poster"
+              size="landscapePoster"
               frameClassName="!mx-0 w-full max-w-none"
             />
           </Reveal>
-          <div className="flex min-w-0 flex-col gap-3 sm:col-span-2 lg:col-span-2 lg:gap-4">
-            <Reveal delay={0.05}>
+          <div className="flex min-w-0 flex-col gap-4 lg:col-span-2">
+            <Reveal delay={0.05} className="min-w-0 w-full">
               <ContentImage
                 src={MAIN_PROGRAM_PICTURE}
-                alt="League program graphic"
-                size="compact"
+                alt="P-O Select winter league program — When LHAC meets ICC"
+                size="programPoster"
                 frameClassName="!mx-0 w-full max-w-none"
               />
             </Reveal>
-            <Reveal delay={0.1}>
+            <Reveal delay={0.1} className="min-w-0 w-full">
               <ContentImage
                 src={MAIN_HEADING_GALLERY}
-                alt="League action photo"
-                size="compact"
+                alt="USA Basketball youth development certified"
+                size="certBadge"
                 frameClassName="!mx-0 w-full max-w-none"
               />
             </Reveal>

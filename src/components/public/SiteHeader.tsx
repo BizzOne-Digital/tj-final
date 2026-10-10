@@ -4,15 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X, ArrowRight } from "lucide-react";
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/teams", label: "Teams" },
-  { href: "/schedules", label: "Schedules" },
-  { href: "/information", label: "Information" },
-  { href: "/contact", label: "Contact" },
-];
+import { ChevronDown, Menu, X, ArrowRight } from "lucide-react";
+import { LEAGUE_MENU, PRIMARY_NAV } from "@/lib/site-navigation";
 
 export function SiteHeader({
   emblemUrl,
@@ -24,7 +17,13 @@ export function SiteHeader({
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [leagueOpen, setLeagueOpen] = useState(false);
   const isHome = pathname === "/";
+
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
+
+  const leagueActive = LEAGUE_MENU.some((l) => isActive(l.href));
 
   return (
     <header
@@ -65,30 +64,59 @@ export function SiteHeader({
             </div>
           </Link>
 
-          <nav className="hidden items-center gap-8 lg:flex">
-            {navLinks.map((link) => {
-              const active =
-                link.href === "/"
-                  ? pathname === "/"
-                  : pathname.startsWith(link.href);
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`relative text-sm font-medium transition ${
-                    active ? "text-white" : "text-white/65 hover:text-white"
-                  }`}
-                >
-                  {link.label}
-                  {active && (
-                    <span
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full bg-electric-blue shadow-[0_0_12px_rgba(61,139,255,0.8)]"
-                      aria-hidden
-                    />
-                  )}
-                </Link>
-              );
-            })}
+          <nav className="hidden items-center gap-5 xl:gap-6 lg:flex">
+            {PRIMARY_NAV.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`relative text-sm font-medium transition ${
+                  isActive(link.href) ? "text-white" : "text-white/65 hover:text-white"
+                }`}
+              >
+                {link.label}
+                {isActive(link.href) && (
+                  <span
+                    className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full bg-electric-blue"
+                    aria-hidden
+                  />
+                )}
+              </Link>
+            ))}
+            <div className="relative">
+              <button
+                type="button"
+                className={`inline-flex items-center gap-1 text-sm font-medium transition ${
+                  leagueActive ? "text-white" : "text-white/65 hover:text-white"
+                }`}
+                onClick={() => setLeagueOpen((v) => !v)}
+                aria-expanded={leagueOpen}
+              >
+                League menu
+                <ChevronDown className={`h-4 w-4 transition ${leagueOpen ? "rotate-180" : ""}`} />
+              </button>
+              {leagueOpen && (
+                <>
+                  <button
+                    type="button"
+                    className="fixed inset-0 z-40 cursor-default"
+                    aria-label="Close menu"
+                    onClick={() => setLeagueOpen(false)}
+                  />
+                  <div className="absolute right-0 top-full z-50 mt-2 max-h-[min(70vh,28rem)] w-64 overflow-y-auto rounded-xl border border-electric-blue/25 bg-[#020a18] py-2 shadow-xl">
+                    {LEAGUE_MENU.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className="block px-4 py-2.5 text-sm text-cool-grey hover:bg-white/5 hover:text-ice-white"
+                        onClick={() => setLeagueOpen(false)}
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
           </nav>
 
           <div className="flex items-center gap-2">
@@ -112,9 +140,10 @@ export function SiteHeader({
       </div>
 
       {open && (
-        <div className="border-t border-white/10 bg-[#020a18]/95 px-4 py-4 lg:hidden">
-          <ul className="space-y-1">
-            {navLinks.map((link) => (
+        <div className="max-h-[min(85vh,32rem)] overflow-y-auto border-t border-white/10 bg-[#020a18]/95 px-4 py-4 lg:hidden">
+          <p className="px-2 text-[10px] font-semibold uppercase tracking-wider text-electric-blue">Main</p>
+          <ul className="mt-1 space-y-1">
+            {PRIMARY_NAV.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
@@ -125,16 +154,30 @@ export function SiteHeader({
                 </Link>
               </li>
             ))}
-            <li>
-              <Link
-                href="/booking"
-                className="mt-2 block rounded-full bg-royal-blue px-4 py-3 text-center text-sm font-bold text-white"
-                onClick={() => setOpen(false)}
-              >
-                Register Team
-              </Link>
-            </li>
           </ul>
+          <p className="mt-4 px-2 text-[10px] font-semibold uppercase tracking-wider text-electric-blue">
+            League menu
+          </p>
+          <ul className="mt-1 space-y-1">
+            {LEAGUE_MENU.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="block rounded-lg px-2 py-2.5 text-sm text-cool-grey hover:text-white"
+                  onClick={() => setOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <Link
+            href="/booking"
+            className="mt-4 block rounded-full bg-royal-blue px-4 py-3 text-center text-sm font-bold text-white"
+            onClick={() => setOpen(false)}
+          >
+            Register Team
+          </Link>
         </div>
       )}
     </header>

@@ -39,17 +39,20 @@ export function Reveal({
 
   const Component = motion[as];
 
+  const visible = { opacity: 1, x: 0, y: 0 };
+
   return (
     <Component
       className={`min-w-0 max-w-full ${className ?? ""}`.trim()}
-      initial={{ opacity: reducedMotion ? 1 : 0, ...offset }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      initial={{ opacity: reducedMotion || systemReduced ? 1 : 0, ...offset }}
+      animate={visible}
+      whileInView={visible}
       viewport={{ once: true, margin: "-8%" }}
       transition={{
         type: "spring",
         stiffness: 120,
         damping: 22,
-        delay,
+        delay: reducedMotion || systemReduced ? 0 : delay,
       }}
     >
       {children}

@@ -4,10 +4,19 @@ import {
   PLAYER_OF_GAME_PROCESS_HTML,
   TESTIMONIALS_BLURB,
 } from "@/lib/league-copy";
+import { TeamFormLinks } from "@/components/public/TeamFormLinks";
 import { schoolScheduleImages, schoolTeamImage } from "@/lib/drive-assets";
 import type { JsonDoc } from "@/lib/services/league";
 
-const WEEKLY_PLACEHOLDERS = ["Week #1", "Week #2", "Week #3", "Week #4", "Week #5"];
+const WEEKLY_PLACEHOLDERS = [
+  "Week #1",
+  "Week #2",
+  "Week #3",
+  "Week #4",
+  "Week #5",
+  "Week #6",
+  "Week #7",
+];
 
 export function SchoolTeamSections({
   school,
@@ -25,11 +34,11 @@ export function SchoolTeamSections({
   const schedules = schoolScheduleImages(slug);
 
   const coachLines = schoolTeams.flatMap((t) => {
-    const coaches = (t.coaches as { name?: string }[] | undefined) ?? [];
+    const coaches = (t.coaches as { name?: string; role?: string }[] | undefined) ?? [];
     const div = String((t.divisionId as { displayName?: string })?.displayName ?? "");
     return coaches.map((c) => ({
       name: c.name ?? "Coach",
-      division: div,
+      division: c.role?.trim() ? c.role : div,
     }));
   });
 
@@ -79,26 +88,21 @@ export function SchoolTeamSections({
         ) : null}
       </section>
 
+      <TeamFormLinks resources={resources} />
+
       <section>
-        <h2 className="font-display text-xl uppercase text-ice-white">Yearly forms</h2>
-        <p className="mt-2 text-sm text-gold">These forms must be filled out before the first game.</p>
-        <ul className="mt-4 space-y-2">
-          {resources.map((r) => (
-            <li key={String(r.slug)}>
-              {r.externalUrl ? (
-                <a
-                  href={String(r.externalUrl)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-electric-blue hover:underline"
-                >
-                  {String(r.title)}
-                </a>
-              ) : (
-                <Link href={`/information/${r.slug}`} className="text-electric-blue hover:underline">
-                  {String(r.title)}
-                </Link>
-              )}
+        <h2 className="font-display text-xl uppercase text-ice-white">Weekly forms by week</h2>
+        <p className="mt-2 text-sm text-cool-grey">
+          Use the weekly forms above when your coach opens them for each league day.
+        </p>
+        <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+          {WEEKLY_PLACEHOLDERS.map((w) => (
+            <li
+              key={w}
+              className="rounded-lg border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-cool-grey"
+            >
+              <span className="font-semibold text-ice-white">{w}</span>
+              <span className="mt-1 block text-xs">Links posted when the week is active.</span>
             </li>
           ))}
         </ul>
@@ -131,12 +135,6 @@ export function SchoolTeamSections({
         ) : (
           <p className="mt-2 text-cool-grey">Schedule images coming soon.</p>
         )}
-        <h3 className="mt-8 font-display text-lg uppercase text-electric-blue">Weekly game links</h3>
-        <ul className="mt-3 space-y-1 text-cool-grey">
-          {WEEKLY_PLACEHOLDERS.map((w) => (
-            <li key={w}>{w} — link coming soon</li>
-          ))}
-        </ul>
         <Link href="/schedules" className="mt-4 inline-block text-sm text-electric-blue hover:underline">
           League schedules &amp; standings →
         </Link>

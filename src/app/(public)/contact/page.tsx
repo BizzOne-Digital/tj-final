@@ -19,11 +19,8 @@ export default async function ContactPage() {
   return (
 
     <InnerPage
-
       title="Contact"
-
-      subtitle={settings.headlines?.secondary ?? "ONE TEAM. ONE GOAL. ONE PURPOSE."}
-
+      subtitle="Get in touch — we're here to help with any questions about our programs."
     >
 
       <div className="grid min-w-0 gap-10 lg:grid-cols-12 lg:gap-12">

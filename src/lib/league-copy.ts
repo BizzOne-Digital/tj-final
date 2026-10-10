@@ -72,11 +72,17 @@ export const TESTIMONIALS_BLURB = `
 `;
 
 export const NFHS_STREAMING_HTML = `
-<p><strong>LIVE STREAMING AVAILABLE (NFHS Network)</strong></p>
-<p>You can watch the games online today.
-<a href="https://www.nfhsnetwork.com/schools/philipsburg-osceola-area-high-school-philipsburg-pa" target="_blank" rel="noopener noreferrer">Philipsburg-Osceola on NFHS Network</a>
-— this link goes directly to our school page.</p>
+<p><strong>📺 LIVE STREAMING AVAILABLE (NFHS Network)</strong></p>
+<p>You can watch the games online today. Here is the link:
+<a href="https://www.nfhsnetwork.com/schools/philipsburg-osceola-area-high-school-philipsburg-pa" target="_blank" rel="noopener noreferrer">Philipsburg-Osceola Area High School on NFHS Network</a>.</p>
+<p>We suggest using this link, as it takes you right to our school page on NFHS — you won&apos;t have to search for it.</p>
 `;
 
-export const LHAC_SLUGS = ["tyrone", "clearfield", "bellwood-antis", "philipsburg-osceola"] as const;
+export const LHAC_SLUGS = [
+  "tyrone",
+  "clearfield",
+  "bellwood-antis",
+  "philipsburg-osceola",
+  "mifflin-county",
+] as const;
 export const ICC_SLUGS = ["moshannon-valley", "west-branch"] as const;

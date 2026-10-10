@@ -8,12 +8,17 @@ export type ContentImageSize =
   | "schedule"
   | "scheduleCard"
   | "schoolTeam"
+  | "schoolTeamDirectory"
   | "compact"
   | "sectionFill"
   | "feature"
   | "tile"
   | "default"
-  | "wide";
+  | "wide"
+  | "programPoster"
+  | "landscapePoster"
+  | "divisionBanner"
+  | "certBadge";
 
 type SizeSpec = {
   frame: string;
@@ -48,6 +53,14 @@ const SPECS: Record<ContentImageSize, SizeSpec> = {
     maxW: 176,
     w: 220,
     h: 300,
+  },
+  schoolTeamDirectory: {
+    frame: "w-full min-w-0 max-w-none",
+    box: "relative flex h-52 w-full items-center justify-center p-0 sm:h-56 sm:max-w-none md:h-60",
+    maxH: 360,
+    maxW: 960,
+    w: 960,
+    h: 540,
   },
   compact: {
     frame: "w-full max-w-[11rem] sm:max-w-[12.5rem]",
@@ -97,12 +110,45 @@ const SPECS: Record<ContentImageSize, SizeSpec> = {
     w: 672,
     h: 360,
   },
+  programPoster: {
+    frame: "w-full min-w-0 max-w-none",
+    box: "relative flex w-full aspect-[2/3] items-center justify-center p-0",
+    maxH: 1200,
+    maxW: 960,
+    w: 1080,
+    h: 1620,
+  },
+  certBadge: {
+    frame: "w-full min-w-0 max-w-none",
+    box: "relative flex w-full aspect-square items-center justify-center p-0 sm:aspect-[4/3]",
+    maxH: 720,
+    maxW: 960,
+    w: 800,
+    h: 800,
+  },
+  landscapePoster: {
+    frame: "w-full min-w-0 max-w-none",
+    box: "relative flex w-full aspect-[5/3] items-center justify-center p-0.5 sm:aspect-[16/9]",
+    maxH: 480,
+    maxW: 900,
+    w: 1500,
+    h: 900,
+  },
+  divisionBanner: {
+    frame: "w-full h-full min-w-0 max-w-none",
+    box: "relative flex h-full w-full min-h-[9rem] items-center justify-center p-0 sm:min-h-[10rem]",
+    maxH: 280,
+    maxW: 520,
+    w: 1200,
+    h: 720,
+  },
 };
 
 export function sizeForAssetUrl(src: string): ContentImageSize {
   if (isScheduleAssetUrl(src)) return "schedule";
   if (src.includes("/team.") || src.includes("/schools/")) return "schoolTeam";
-  if (src.includes("/about/") || src.includes("program-picture")) return "feature";
+  if (src.includes("program-picture")) return "programPoster";
+  if (src.includes("/about/") || src.includes("about-feature")) return "landscapePoster";
   return "compact";
 }
 
@@ -131,15 +177,25 @@ export function ContentImage({
   const [loaded, setLoaded] = useState(false);
   const resolved = resolveImageSize(size, src);
   const spec = SPECS[resolved];
+  const isDirectoryTeam = resolved === "schoolTeamDirectory";
+  const isProgramPoster = resolved === "programPoster";
+  const isLandscapePoster = resolved === "landscapePoster";
+  const isDivisionBanner = resolved === "divisionBanner";
+  const isCertBadge = resolved === "certBadge";
+  const fillFrame =
+    isDirectoryTeam || isProgramPoster || isLandscapePoster || isDivisionBanner || isCertBadge;
+  const innerShell = fillFrame
+    ? isLandscapePoster
+      ? "overflow-visible rounded-xl bg-transparent p-0"
+      : "overflow-hidden rounded-xl bg-[#020a18]/40 p-0 sm:p-1"
+    : "overflow-hidden rounded-xl border border-electric-blue/25 bg-[#020a18]/80 p-2";
 
   return (
     <figure
-      className={`league-media mx-auto ${resolved === "sectionFill" ? "min-w-0 w-full" : "shrink-0"} ${spec.frame} ${frameClassName}`.trim()}
+      className={`league-media mx-auto ${resolved === "sectionFill" || fillFrame ? "min-w-0 w-full" : "shrink-0"} ${spec.frame} ${frameClassName}`.trim()}
       data-size={resolved}
     >
-      <div
-        className={`overflow-hidden rounded-xl border border-electric-blue/25 bg-[#020a18]/80 p-2 ${spec.box}`}
-      >
+      <div className={`${innerShell} ${spec.box}`}>
         <Image
           src={src}
           alt={alt}
@@ -147,11 +203,10 @@ export function ContentImage({
           height={spec.h}
           priority={priority}
           onLoad={() => setLoaded(true)}
-          className={`h-auto max-h-full w-auto max-w-full object-contain object-center transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"} ${className}`}
-          style={{
-            maxHeight: spec.maxH,
-            maxWidth: spec.maxW,
-          }}
+          className={`object-contain object-center transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"} ${
+            fillFrame ? "h-full w-full max-h-full max-w-full" : "h-auto max-h-full w-auto max-w-full"
+          } ${className}`}
+          style={fillFrame ? { maxHeight: spec.maxH, maxWidth: "100%" } : { maxHeight: spec.maxH, maxWidth: spec.maxW }}
           sizes={`(max-width: 768px) 90vw, ${spec.maxW}px`}
         />
       </div>

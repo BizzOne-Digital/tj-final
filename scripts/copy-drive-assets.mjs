@@ -6,7 +6,9 @@ const out = path.join(process.cwd(), "public", "league-assets");
 const docsOut = path.join(process.cwd(), "public", "league-docs");
 
 const copies = [
-  ["Main Page Heading/Pictures/Program Picture/7DD22E0E-9F55-4A9B-AFC3-868B27910837.PNG", "main/program-picture.png"],
+  ["Main Page Heading/Pictures/Program Picture/ss2.jpg", "main/program-picture.jpg"],
+  ["INFORMATION/5-6 GRADE LEAGUE POSTER/grades-5-6.jpg", "divisions/grades-5-6.jpg"],
+  ["INFORMATION/3-4 GRADE LEAGUE POSTER/grades-3-4.jpg", "divisions/grades-3-4.jpg"],
   ["Main Page Heading/Pictures/IMG_0757.JPG", "main/heading-gallery.jpg"],
   ["ABOUT US/EE5CAF73-5DAA-47A1-99A9-B4033902B190.PNG", "about/about-feature.png"],
   ["GOLDEN TICKET/907B921F-DF05-428D-B498-781E1BC71B83.PNG", "golden-ticket/picture.png"],
@@ -23,6 +25,8 @@ const copies = [
   ["MO VALLEY/Schedule/266D3B0B-30F6-4518-8D37-1A8735B219B9.PNG", "schools/moshannon-valley/schedule-1.png"],
   ["MO VALLEY/Schedule/C233CEA2-5129-4222-9363-2AE6DA4FD597.PNG", "schools/moshannon-valley/schedule-2.png"],
   ["WEST BRANCH/IMG_0785.PNG", "schools/west-branch/team.png"],
+  ["MIFFLIN COUNTY/team.jpg", "schools/mifflin-county/team.jpg"],
+  ["MIFFLIN COUNTY/Schedule/schedule.png", "schools/mifflin-county/schedule.png"],
   ["WEST BRANCH/Schedule/99328625-EC59-42CE-9C05-283C81090102.PNG", "schools/west-branch/schedule-1.png"],
   ["WEST BRANCH/Schedule/BB46EA70-06E8-46B8-91CB-C904419A54E0.PNG", "schools/west-branch/schedule-2.png"],
   ["INFORMATION/4th GRADE TEAM SCHEDULES/C0F085A6-F53F-403A-BDF2-4554105F887B.PNG", "information/4th-grade-team-schedules.png"],

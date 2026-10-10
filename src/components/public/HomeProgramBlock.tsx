@@ -19,17 +19,8 @@ export function HomeProgramBlock() {
           </p>
         </Reveal>
 
-        <div className="mt-10 grid min-w-0 gap-10 lg:grid-cols-[minmax(12rem,16rem)_minmax(0,1fr)] lg:items-start">
-          <Reveal from="left" className="order-2 flex min-h-0 min-w-0 lg:order-1 lg:h-full">
-            <ContentImage
-              src={MAIN_PROGRAM_PICTURE}
-              alt="P-O Select Elementary Basketball League program graphic"
-              priority
-              size="sectionFill"
-              frameClassName="!mx-0 w-full max-w-none"
-            />
-          </Reveal>
-          <Reveal from="right" delay={0.08} className="order-1 flex min-w-0 flex-col justify-center lg:order-2">
+        <div className="mt-10 flex min-w-0 flex-col gap-10 lg:gap-12">
+          <Reveal from="right" className="flex min-w-0 flex-col justify-center">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-electric-blue">
               Philipsburg-Osceola
             </p>
@@ -44,6 +35,15 @@ export function HomeProgramBlock() {
             </blockquote>
             <p className="mt-4 text-sm leading-relaxed text-cool-grey md:text-base">{HOME_SUPPORTING}</p>
             <p className="mt-6 text-xs leading-relaxed text-electric-blue/90 md:text-sm">{HOME_HASHTAGS}</p>
+          </Reveal>
+          <Reveal from="left" delay={0.08} className="w-full min-w-0">
+            <ContentImage
+              src={MAIN_PROGRAM_PICTURE}
+              alt="P-O Select Elementary Winter Basketball League — When LHAC meets ICC"
+              priority
+              size="programPoster"
+              frameClassName="!mx-0 mx-auto w-full max-w-none md:max-w-lg lg:max-w-xl xl:max-w-2xl"
+            />
           </Reveal>
         </div>
       </div>

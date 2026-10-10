@@ -108,4 +108,10 @@ export const previewSchools = [
     programLink:
       "https://www.facebook.com/share/1FeQhhARFU/?mibextid=wwXIfr",
   },
+  {
+    slug: "mifflin-county",
+    name: "Mifflin County",
+    tabAlias: "Mifflin County",
+    programLink: "https://www.facebook.com/share/19nEiubQzM/?mibextid=wwXIfr",
+  },
 ];

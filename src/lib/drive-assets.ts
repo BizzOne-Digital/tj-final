@@ -14,6 +14,7 @@ const schoolTeamKeys: Record<string, string> = {
   "philipsburg-osceola": "schools.philipsburg-osceola.team",
   "moshannon-valley": "schools.moshannon-valley.team",
   "west-branch": "schools.west-branch.team",
+  "mifflin-county": "schools.mifflin-county.team",
 };
 
 export function schoolTeamImage(slug: string): string | undefined {
@@ -34,6 +35,7 @@ const scheduleKeysBySlug: Record<string, string[]> = {
     "schools.moshannon-valley.schedule-2",
   ],
   "west-branch": ["schools.west-branch.schedule-1", "schools.west-branch.schedule-2"],
+  "mifflin-county": [],
 };
 
 export function schoolScheduleImages(slug: string): string[] {
@@ -41,7 +43,19 @@ export function schoolScheduleImages(slug: string): string[] {
   return keys.map((k) => driveAsset(k)).filter(Boolean) as string[];
 }
 
-export const MAIN_PROGRAM_PICTURE = driveAsset("main.program-picture") ?? "/league-assets/main/program-picture.png";
-export const MAIN_ABOUT_PICTURE = driveAsset("about.about-feature") ?? "/league-assets/about/about-feature.png";
+export const DIVISION_POSTER_GRADES_56 =
+  driveAsset("divisions.grades-5-6") ?? "/league-assets/divisions/grades-5-6.jpg";
+export const DIVISION_POSTER_GRADES_34 =
+  driveAsset("divisions.grades-3-4") ?? "/league-assets/divisions/grades-3-4.jpg";
+
+export function divisionPosterImage(division: { displayName?: unknown; key?: unknown; slug?: unknown }): string | undefined {
+  const blob = `${division.displayName ?? ""} ${division.key ?? ""} ${division.slug ?? ""}`.toLowerCase();
+  if (blob.includes("5-6") || blob.includes("5/6")) return DIVISION_POSTER_GRADES_56;
+  if (blob.includes("3-4") || blob.includes("3/4")) return DIVISION_POSTER_GRADES_34;
+  return undefined;
+}
+
+export const MAIN_PROGRAM_PICTURE = driveAsset("main.program-picture") ?? "/league-assets/main/program-picture.jpg";
+export const MAIN_ABOUT_PICTURE = driveAsset("about.about-feature") ?? "/league-assets/about/about-feature.jpg";
 export const GOLDEN_TICKET_PICTURE = driveAsset("golden-ticket.picture") ?? "/league-assets/golden-ticket/picture.png";
 export const NIKE_MARK = driveAsset("main.nike-from-poster") ?? "/brand/season-poster-2026-27.jpg";

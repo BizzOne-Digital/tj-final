@@ -163,6 +163,19 @@ const SCHOOLS = [
     coaches: [{ divisionKey: "grades-5-6", coaches: ["Kyley Longo"] }],
   },
   {
+    stableKey: "mifflin-county",
+    slug: "mifflin-county",
+    name: "Mifflin County",
+    tabAlias: "Mifflin County",
+    programLink: "https://www.facebook.com/share/19nEiubQzM/?mibextid=wwXIfr",
+    coaches: [
+      {
+        divisionKey: "grades-3-4",
+        coaches: [{ name: "Mike Smith", role: "4th Grade" }],
+      },
+    ],
+  },
+  {
     stableKey: "moshannon-valley",
     slug: "moshannon-valley",
     name: "Moshannon Valley",
@@ -362,13 +375,13 @@ async function main() {
     const school = await SchoolProgram.findOneAndUpdate(
       { stableKey: s.stableKey },
       {
-        $setOnInsert: {
-          stableKey: s.stableKey,
+        $set: {
           slug: s.slug,
           name: s.name,
           tabAlias: s.tabAlias,
           programLink: s.programLink,
         },
+        $setOnInsert: { stableKey: s.stableKey },
       },
       { upsert: true, new: true },
     );
@@ -377,18 +390,23 @@ async function main() {
     for (const block of s.coaches) {
       const divId = divisionIds[block.divisionKey];
       const teamSlug = `${s.slug}-${block.divisionKey}`;
+      const coachDocs = block.coaches.map((c) =>
+        typeof c === "string" ? { name: c } : { name: c.name, role: c.role },
+      );
       await SeasonTeam.findOneAndUpdate(
         { seasonId: season._id, teamSlug },
         {
-          $setOnInsert: {
-            seasonId: season._id,
+          $set: {
             schoolId: school!._id,
             divisionId: divId,
-            teamSlug,
             teamName: s.name,
-            coaches: block.coaches.map((name) => ({ name })),
-            registrationStatus: "placeholder",
+            coaches: coachDocs,
             publicationStatus: "published",
+          },
+          $setOnInsert: {
+            seasonId: season._id,
+            teamSlug,
+            registrationStatus: "placeholder",
           },
         },
         { upsert: true },

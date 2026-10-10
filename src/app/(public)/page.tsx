@@ -14,7 +14,8 @@ import { MagneticButton } from "@/components/motion/MagneticButton";
 import { Reveal } from "@/components/motion/Reveal";
 import { PosterLightbox } from "@/components/public/PosterLightbox";
 import { formatUsdFromCents } from "@/lib/fee-calculator";
-import { Trophy, Calendar, Users } from "lucide-react";
+import { Trophy, Calendar } from "lucide-react";
+import { SchoolDirectoryCard } from "@/components/public/SchoolDirectoryCard";
 import { HomeProgramBlock } from "@/components/public/HomeProgramBlock";
 import { ContentImage } from "@/components/public/ContentImage";
 import {
@@ -24,6 +25,9 @@ import {
 import {
   MAIN_ABOUT_PICTURE,
   GOLDEN_TICKET_PICTURE,
+  DIVISION_POSTER_GRADES_34,
+  DIVISION_POSTER_GRADES_56,
+  divisionPosterImage,
 } from "@/lib/drive-assets";
 
 export default async function HomePage() {
@@ -41,6 +45,7 @@ export default async function HomePage() {
 
   const posterUrl =
     settings.brand?.seasonPoster?.url ?? "/brand/season-poster-2026-27.jpg";
+  const leagueInfoPoster = MAIN_ABOUT_PICTURE;
   return (
     <div className="w-full min-w-0 overflow-x-clip">
       <HomeHero
@@ -110,9 +115,9 @@ export default async function HomePage() {
           <Reveal from="right" className="min-w-0 w-full">
             <ContentImage
               src={MAIN_ABOUT_PICTURE}
-              alt="P-O Select League — about us"
-              size="wide"
-              frameClassName="!mx-0 w-full max-w-none"
+              alt="P-O Select League — 2026-27 season state championship invite poster"
+              size="landscapePoster"
+              frameClassName="!mx-0 mx-auto w-full max-w-[17rem] sm:max-w-xs md:max-w-sm lg:max-w-md"
             />
           </Reveal>
         </div>
@@ -135,8 +140,8 @@ export default async function HomePage() {
             <Reveal from="right" className="min-w-0 lg:sticky lg:top-24">
               <div className="poster-preview w-full">
                 <PosterLightbox
-                  src={posterUrl}
-                  alt="2026-27 P-O Select Elementary Winter Basketball League poster"
+                  src={leagueInfoPoster}
+                  alt="2026-27 P-O Select season — state championship invite poster"
                   layout="landscape"
                 />
               </div>
@@ -159,17 +164,13 @@ export default async function HomePage() {
             {divisions.length > 0
               ? divisions.map((d: JsonDoc, i: number) => (
                   <Reveal key={String(d._id)} from={i % 2 === 0 ? "left" : "right"} delay={i * 0.08}>
-                    <div className="gradient-card gradient-card-hover rounded-2xl p-8 backdrop-blur">
-                      <p className="text-electric-blue text-sm font-semibold uppercase">
-                        {String(d.leagueDayWeekday)}s · {String(d.leagueDayStartTime)} ET
-                      </p>
-                      <h3 className="mt-2 font-display text-2xl font-bold uppercase">
-                        {String(d.displayName)}
-                      </h3>
-                      <p className="mt-3 text-sm text-cool-grey">
-                        Up to {settings.league?.teamsPerDivisionCapacity ?? 8} teams per division.
-                      </p>
-                    </div>
+                    <DivisionCard
+                      title={String(d.displayName)}
+                      meta={`${String(d.leagueDayWeekday)}s · ${String(d.leagueDayStartTime)} ET`}
+                      capacity={settings.league?.teamsPerDivisionCapacity}
+                      posterSrc={divisionPosterImage(d)}
+                      posterAlt={`${String(d.displayName)} division poster`}
+                    />
                   </Reveal>
                 ))
               : (
@@ -178,11 +179,15 @@ export default async function HomePage() {
                     title="Grades 5-6"
                     meta="Saturdays · 9:00 AM ET"
                     capacity={settings.league?.teamsPerDivisionCapacity}
+                    posterSrc={DIVISION_POSTER_GRADES_56}
+                    posterAlt="2026-27 P-O Select 5/6th grade league poster"
                   />
                   <DivisionCard
                     title="Grades 3-4"
                     meta="Sundays · 12:00 PM ET"
                     capacity={settings.league?.teamsPerDivisionCapacity}
+                    posterSrc={DIVISION_POSTER_GRADES_34}
+                    posterAlt="2026-27 P-O Select 3/4th grade league poster"
                   />
                 </>
               )}
@@ -199,22 +204,13 @@ export default async function HomePage() {
               LHAC &amp; ICC programs — tap a school for coaches, forms, and schedules.
             </p>
         </Reveal>
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-10 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3">
           {schools.map((s: JsonDoc, i: number) => (
-            <Reveal key={String(s.slug)} delay={i * 0.06}>
-              <Link
-                href={`/teams/${s.slug}`}
-                className="group gradient-card gradient-card-hover block rounded-xl p-6"
-              >
-                <Users className="h-8 w-8 text-electric-blue" />
-                <h3 className="mt-4 font-display text-xl font-bold uppercase group-hover:text-electric-blue">
-                  {String(s.name)}
-                </h3>
-                <p className="mt-2 text-sm text-cool-grey">Team profile →</p>
-              </Link>
+            <Reveal key={String(s.slug)} delay={i * 0.06} className="min-w-0">
+              <SchoolDirectoryCard school={s} layout="grid" />
             </Reveal>
           ))}
-        </div>
+        </ul>
       </section>
 
       <section className="gradient-section-alt border-y border-electric-blue/15 py-16">
@@ -371,16 +367,32 @@ function DivisionCard({
   title,
   meta,
   capacity,
+  posterSrc,
+  posterAlt,
 }: {
   title: string;
   meta: string;
   capacity?: number;
+  posterSrc?: string;
+  posterAlt?: string;
 }) {
   return (
-    <div className="gradient-card gradient-card-hover rounded-2xl p-8">
-      <p className="text-sm font-semibold uppercase text-electric-blue">{meta}</p>
-      <h3 className="mt-2 font-display text-2xl font-bold uppercase">{title}</h3>
-      <p className="mt-3 text-sm text-cool-grey">Up to {capacity ?? 8} teams per division.</p>
+    <div className="gradient-card gradient-card-hover flex min-w-0 flex-col overflow-hidden rounded-2xl backdrop-blur sm:flex-row sm:items-stretch">
+      <div className="flex min-w-0 flex-1 flex-col justify-center p-6 sm:p-8">
+        <p className="text-sm font-semibold uppercase text-electric-blue">{meta}</p>
+        <h3 className="mt-2 font-display text-2xl font-bold uppercase">{title}</h3>
+        <p className="mt-3 text-sm text-cool-grey">Up to {capacity ?? 8} teams per division.</p>
+      </div>
+      {posterSrc ? (
+        <div className="flex min-h-[11rem] w-full shrink-0 items-center justify-center border-t border-white/10 bg-[#020a18]/50 p-2 sm:min-h-0 sm:w-[42%] sm:max-w-[15rem] sm:border-l sm:border-t-0 md:max-w-[17rem] lg:max-w-xs">
+          <ContentImage
+            src={posterSrc}
+            alt={posterAlt ?? `${title} division poster`}
+            size="divisionBanner"
+            frameClassName="!mx-0 h-full w-full max-w-none"
+          />
+        </div>
+      ) : null}
     </div>
   );
 }

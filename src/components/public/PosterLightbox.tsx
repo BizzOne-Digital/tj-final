@@ -4,9 +4,9 @@ import Image from "next/image";
 import { useState } from "react";
 import { Expand } from "lucide-react";
 
-/** Season poster file is 1024×552 (landscape). */
-const POSTER_W = 1024;
-const POSTER_H = 552;
+/** State championship invite banner (landscape, ~5:3). */
+const POSTER_W = 1500;
+const POSTER_H = 900;
 
 export function PosterLightbox({
   src,
@@ -37,7 +37,7 @@ export function PosterLightbox({
         <div
           className={
             isLandscape
-              ? "flex w-full items-center justify-center bg-[#020a18]/60 p-2 sm:p-3"
+              ? "flex w-full items-center justify-center bg-[#020a18]/50 p-1 sm:p-2"
               : "flex items-center justify-center bg-[#020a18]/60 p-2"
           }
           style={

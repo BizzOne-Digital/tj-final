@@ -4,6 +4,7 @@ import { ScheduleImageGrid } from "@/components/public/ContentImage";
 import { getPublishedResources, type JsonDoc } from "@/lib/services/league";
 import { PLAYER_OF_GAME_PROCESS_HTML, TESTIMONIALS_BLURB } from "@/lib/league-copy";
 import { driveAsset } from "@/lib/drive-assets";
+import { InformationFormsSection } from "@/components/public/InformationFormsSection";
 import { LeagueDocLinks } from "@/components/public/LeagueDocLinks";
 import { ProseBlock } from "@/components/public/ProseBlock";
 
@@ -40,6 +41,10 @@ export default async function InformationPage() {
             />
           </div>
         ) : null}
+      </section>
+
+      <section className="mb-12">
+        <InformationFormsSection resources={resources} />
       </section>
 
       <section className="mb-12">
