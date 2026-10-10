@@ -9,6 +9,15 @@ export function LeagueDocumentEmbed({ docUrl }: { docUrl: string }) {
   const abs = absolutePublicUrl(docUrl);
   const lower = docUrl.toLowerCase();
 
+  if (/\.(png|jpe?g|webp)$/i.test(lower)) {
+    return (
+      <div className="mt-6 overflow-hidden rounded-xl border border-electric-blue/25 bg-white">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={docUrl} alt="" className="mx-auto h-auto w-full max-w-full object-contain" />
+      </div>
+    );
+  }
+
   if (lower.endsWith(".pdf") && abs) {
     return (
       <div className="mt-6 overflow-hidden rounded-xl border border-electric-blue/25 bg-[#020a18]/80">

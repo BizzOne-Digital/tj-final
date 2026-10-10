@@ -60,7 +60,9 @@ const folderToSlug = [
   ["parent guardian code of conduct", "parent-guardian-code-of-conduct"],
   ["public relations internet and photo release form", "photo-release"],
   ["zerotolerance photography & recording policy", "zero-tolerance-photography"],
+  ["zerotolerance photography recording policy", "zero-tolerance-photography"],
   ["zero tolerance photography & recording policy", "zero-tolerance-photography"],
+  ["zero tolerance photography recording policy", "zero-tolerance-photography"],
   ["injury report form", "injury-report"],
   ["all-star selection form", "all-star-selection"],
   ["player of the game weekly voting form", "player-of-the-game-voting"],
@@ -116,12 +118,18 @@ function copyDocs() {
   for (const ent of fs.readdirSync(infoRoot, { withFileTypes: true })) {
     if (!ent.isDirectory()) continue;
     const folder = path.join(infoRoot, ent.name);
-    const docs = walkFiles(folder).filter((f) => /\.(docx|pdf)$/i.test(f));
+    const docs = walkFiles(folder).filter((f) => /\.(docx|pdf|png|jpe?g)$/i.test(f));
     if (!docs.length) continue;
-    let slug = slugForInfoFolder(ent.name);
-    for (const f of docs) {
-      const fromName = slugFromFilename(path.basename(f, path.extname(f)));
-      if (fromName) slug = fromName;
+    const folderSlug = slugForInfoFolder(ent.name);
+    let slug = folderSlug;
+    if (!slug) {
+      for (const f of docs) {
+        const fromName = slugFromFilename(path.basename(f, path.extname(f)));
+        if (fromName) {
+          slug = fromName;
+          break;
+        }
+      }
     }
     if (!slug) continue;
     const preferred =
