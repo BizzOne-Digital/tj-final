@@ -336,15 +336,17 @@ export function ContentImageGrid({
   images: string[];
   altPrefix: string;
   size?: ContentImageSize;
-  columns?: 2 | 3 | 4;
+  columns?: 1 | 2 | 3 | 4;
 }) {
   if (!images.length) return null;
   const colClass =
-    columns === 4
-      ? "sm:grid-cols-2 lg:grid-cols-4"
-      : columns === 2
-        ? "sm:grid-cols-2"
-        : "sm:grid-cols-3";
+    columns === 1
+      ? ""
+      : columns === 4
+        ? "sm:grid-cols-2 lg:grid-cols-4"
+        : columns === 2
+          ? "sm:grid-cols-2"
+          : "sm:grid-cols-3";
   return (
     <div className={`grid grid-cols-1 items-stretch gap-4 ${colClass}`}>
       {images.map((src, i) => (
