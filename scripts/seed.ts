@@ -121,8 +121,7 @@ const RESOURCES = [
     stableKey: "zero-tolerance-photo",
     title: "Zero Tolerance Photography & Recording Policy",
     slug: "zero-tolerance-photography",
-    category: "documents",
-    adminFlags: { needsDocument: true },
+    externalUrl: "https://forms.gle/ZKoCR77TABB2zqys8",
   },
 ];
 
@@ -264,16 +263,16 @@ async function main() {
       key: "grades-5-6",
       displayName: "Grades 5-6",
       archiveLabel: "6th Grade",
-      championshipDate: etDate("2027-01-30", 9),
-      leagueDayStartTime: "9:00 AM",
+      championshipDate: etDate("2027-01-30", 8),
+      leagueDayStartTime: "8:00 AM",
       leagueDayWeekday: "Saturday",
     },
     {
       key: "grades-3-4",
       displayName: "Grades 3-4",
       archiveLabel: "4th Grade",
-      championshipDate: etDate("2027-01-31", 12),
-      leagueDayStartTime: "12:00 PM",
+      championshipDate: etDate("2027-01-31", 9),
+      leagueDayStartTime: "9:00 AM",
       leagueDayWeekday: "Sunday",
     },
   ];
@@ -282,7 +281,17 @@ async function main() {
   for (const d of divisions) {
     const doc = await Division.findOneAndUpdate(
       { seasonId: season._id, key: d.key },
-      { $setOnInsert: { ...d, seasonId: season._id } },
+      {
+        $set: {
+          displayName: d.displayName,
+          archiveLabel: d.archiveLabel,
+          championshipDate: d.championshipDate,
+          leagueDayStartTime: d.leagueDayStartTime,
+          leagueDayWeekday: d.leagueDayWeekday,
+          seasonId: season._id,
+        },
+        $setOnInsert: { key: d.key },
+      },
       { upsert: true, new: true },
     );
     divisionIds[d.key] = doc!._id;
@@ -310,16 +319,16 @@ async function main() {
     await LeagueEvent.findOneAndUpdate(
       { stableKey: key },
       {
-        $setOnInsert: {
-          stableKey: key,
+        $set: {
           seasonId: season._id,
           divisionId: divisionIds["grades-5-6"],
           title: `Grades 5-6 League Day`,
           eventType: "league-day",
-          startsAt: etDate(date, 9),
+          startsAt: etDate(date, 8),
           venueName: "Philipsburg-Osceola Middle School",
           venueAddress: "200 Short Street, Philipsburg, PA 16866",
         },
+        $setOnInsert: { stableKey: key },
       },
       { upsert: true },
     );
@@ -330,16 +339,16 @@ async function main() {
     await LeagueEvent.findOneAndUpdate(
       { stableKey: key },
       {
-        $setOnInsert: {
-          stableKey: key,
+        $set: {
           seasonId: season._id,
           divisionId: divisionIds["grades-3-4"],
           title: `Grades 3-4 League Day`,
           eventType: "league-day",
-          startsAt: etDate(date, 12),
+          startsAt: etDate(date, 9),
           venueName: "Philipsburg-Osceola Middle School",
           venueAddress: "200 Short Street, Philipsburg, PA 16866",
         },
+        $setOnInsert: { stableKey: key },
       },
       { upsert: true },
     );
@@ -363,9 +372,13 @@ async function main() {
   );
 
   for (const r of RESOURCES) {
+    const { stableKey, ...fields } = r;
     await Resource.findOneAndUpdate(
-      { stableKey: r.stableKey },
-      { $setOnInsert: { ...r, category: r.category ?? "forms" } },
+      { stableKey },
+      {
+        $set: { ...fields, category: r.category ?? "forms" },
+        $setOnInsert: { stableKey },
+      },
       { upsert: true },
     );
   }

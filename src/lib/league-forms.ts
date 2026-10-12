@@ -18,6 +18,15 @@ export const WEEKLY_FORM_SLUGS = [
   "how-can-we-be-better",
 ] as const;
 
+/** Canonical Google Form URLs (used when DB resource has no externalUrl yet). */
+export const FORM_EXTERNAL_URLS: Partial<Record<string, string>> = {
+  "zero-tolerance-photography": "https://forms.gle/ZKoCR77TABB2zqys8",
+};
+
+export function formExternalUrl(slug: string): string | undefined {
+  return FORM_EXTERNAL_URLS[slug];
+}
+
 export const YEARLY_FORM_LABELS: Record<string, string> = {
   "player-waiver": "Player Waiver",
   "players-code-of-conduct": "Player's Code of Conduct Form",

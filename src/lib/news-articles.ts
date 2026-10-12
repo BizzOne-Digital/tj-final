@@ -34,9 +34,9 @@ export const LEAGUE_NEWS_ARTICLES: LeagueNewsArticle[] = [
     categories: ["Schedules"],
     publishedAt: "2026-10-03T09:00:00-04:00",
     contentHtml: `<p>All league days are held at <strong>Philipsburg-Osceola Middle School</strong>, 200 Short Street, Philipsburg, PA 16866. Each team plays <strong>two games per league day</strong>. The season runs November through February on alternating weekends.</p>
-<h3>Grades 5–6 (Saturdays — 9:00 AM start)</h3>
+<h3>Grades 5–6 (Saturdays — 8:00 AM start)</h3>
 <p>Nov. 21 · Dec. 5 · Dec. 19 · Jan. 2 · Jan. 16 · <strong>Jan. 30 (Championship)</strong></p>
-<h3>Grades 3–4 (Sundays — 12:00 PM start)</h3>
+<h3>Grades 3–4 (Sundays — 9:00 AM start)</h3>
 <p>Nov. 22 · Dec. 6 · Dec. 20 · Jan. 3 · Jan. 17 · <strong>Jan. 31 (Championship)</strong></p>
 <p>View school-specific posters on the <a href="/schedules">schedules page</a> and full league details on <a href="/league-information">league information</a>.</p>`,
   },
@@ -51,7 +51,7 @@ export const LEAGUE_NEWS_ARTICLES: LeagueNewsArticle[] = [
     contentHtml: `<p><strong>All-Star Day — February 6, 2027</strong></p>
 <ul>
 <li><strong>Grades 3–4:</strong> 9:00 AM</li>
-<li><strong>Grades 5–6:</strong> 10:00 AM</li>
+<li><strong>Grades 5–6:</strong> 8:00 AM</li>
 </ul>
 <p>Location: Philipsburg-Osceola Middle School. Families should arrive early for player check-in and warm-ups. More details will be shared with coaches as the season progresses.</p>`,
   },

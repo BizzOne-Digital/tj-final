@@ -29,7 +29,7 @@ export default async function SchedulesPage() {
             links.
           </p>
           {leagueScheduleImages.length > 0 ? (
-            <div className="mt-8 grid gap-5 sm:grid-cols-2">
+            <div className="mt-8 grid gap-6 lg:grid-cols-2">
               {leagueScheduleImages.map((src, i) => (
                 <div
                   key={src}
@@ -56,7 +56,7 @@ export default async function SchedulesPage() {
           <p className="mt-2 text-sm text-cool-grey">
             Tap a school name for the full team page — forms, coaches, and more.
           </p>
-          <ul className="mt-8 grid min-w-0 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+          <ul className="mt-8 grid min-w-0 gap-6 sm:grid-cols-2 xl:grid-cols-2">
             {schoolsWithSchedules.map(({ school, images }) => (
               <li
                 key={String(school.slug)}

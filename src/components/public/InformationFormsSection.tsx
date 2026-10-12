@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { leagueDocUrl } from "@/lib/league-docs";
 import {
+  formExternalUrl,
   WEEKLY_FORM_LABELS,
   WEEKLY_FORM_SLUGS,
   YEARLY_FORM_LABELS,
@@ -10,9 +11,14 @@ import type { JsonDoc } from "@/lib/services/league";
 
 function linkFor(slug: string, resources: JsonDoc[]) {
   const r = resources.find((x) => String(x.slug) === slug);
+  const formUrl = r?.externalUrl ? String(r.externalUrl) : formExternalUrl(slug);
   const doc = leagueDocUrl(slug);
-  if (r?.externalUrl) {
-    return { href: String(r.externalUrl), external: true, label: String(r.title) };
+  if (formUrl) {
+    return {
+      href: formUrl,
+      external: true,
+      label: String(r?.title ?? YEARLY_FORM_LABELS[slug] ?? WEEKLY_FORM_LABELS[slug] ?? slug),
+    };
   }
   if (doc) {
     return { href: doc, external: true, label: YEARLY_FORM_LABELS[slug] ?? WEEKLY_FORM_LABELS[slug] ?? slug };

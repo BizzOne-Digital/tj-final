@@ -6,6 +6,7 @@ import { isDatabaseConfigured } from "@/lib/env";
 import type { JsonDoc } from "@/lib/services/league";
 import { InnerPage } from "@/components/public/InnerPage";
 import { ScheduleImageGrid } from "@/components/public/ContentImage";
+import { formExternalUrl } from "@/lib/league-forms";
 import { leagueDocUrl } from "@/lib/league-docs";
 import { driveAsset } from "@/lib/drive-assets";
 import { LeagueDocumentEmbed } from "@/components/public/LeagueDocumentEmbed";
@@ -56,13 +57,16 @@ export default async function InformationDetailPage({
 
   const title = resource?.title ? String(resource.title) : slug.replace(/-/g, " ");
   const subtitle = resource?.category ? String(resource.category) : "League document";
+  const formUrl = resource?.externalUrl
+    ? String(resource.externalUrl)
+    : formExternalUrl(slug);
 
   return (
     <InnerPage title={title} subtitle={subtitle}>
       {resource?.description ? <p>{String(resource.description)}</p> : null}
-      {resource?.externalUrl ? (
+      {formUrl ? (
         <a
-          href={String(resource.externalUrl)}
+          href={formUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="text-electric-blue"
@@ -70,7 +74,7 @@ export default async function InformationDetailPage({
           Open Google Form ↗
         </a>
       ) : null}
-      {docUrl && docOnDisk ? (
+      {docUrl && docOnDisk && !formUrl ? (
         <>
           <LeagueDocumentEmbed docUrl={docUrl} />
           <p className="mt-4">
@@ -94,7 +98,7 @@ export default async function InformationDetailPage({
         >
           Download document
         </a>
-      ) : !resource?.externalUrl ? (
+      ) : !formUrl ? (
         <p className="text-cool-grey">Document coming soon.</p>
       ) : null}
       {showRosterSchedules ? <RosterScheduleBlock /> : null}

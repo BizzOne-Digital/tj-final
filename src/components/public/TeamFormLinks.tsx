@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {
+  formExternalUrl,
   WEEKLY_FORM_LABELS,
   WEEKLY_FORM_SLUGS,
   YEARLY_FORM_LABELS,
@@ -22,12 +23,13 @@ function FormList({
       {slugs.map((slug, i) => {
         const r = bySlug.get(slug);
         const title = r ? String(r.title) : labels[slug] ?? slug;
+        const href = r?.externalUrl ? String(r.externalUrl) : formExternalUrl(slug);
         return (
           <li key={slug} className="flex gap-2 text-sm">
             <span className="text-cool-grey">{i + 1}.</span>
-            {r?.externalUrl ? (
+            {href ? (
               <a
-                href={String(r.externalUrl)}
+                href={href}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-electric-blue hover:underline"

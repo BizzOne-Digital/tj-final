@@ -177,14 +177,14 @@ export default async function HomePage() {
                 <>
                   <DivisionCard
                     title="Grades 5-6"
-                    meta="Saturdays · 9:00 AM ET"
+                    meta="Saturdays · 8:00 AM ET"
                     capacity={settings.league?.teamsPerDivisionCapacity}
                     posterSrc={DIVISION_POSTER_GRADES_56}
                     posterAlt="2026-27 P-O Select 5/6th grade league poster"
                   />
                   <DivisionCard
                     title="Grades 3-4"
-                    meta="Sundays · 12:00 PM ET"
+                    meta="Sundays · 9:00 AM ET"
                     capacity={settings.league?.teamsPerDivisionCapacity}
                     posterSrc={DIVISION_POSTER_GRADES_34}
                     posterAlt="2026-27 P-O Select 3/4th grade league poster"

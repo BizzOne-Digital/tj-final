@@ -2,11 +2,14 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { Expand } from "lucide-react";
 import { isScheduleAssetUrl } from "@/lib/page-drive-images";
 
 export type ContentImageSize =
   | "schedule"
   | "scheduleCard"
+  | "schedulePoster"
+  | "galleryPhoto"
   | "schoolTeam"
   | "schoolTeamDirectory"
   | "compact"
@@ -45,6 +48,22 @@ const SPECS: Record<ContentImageSize, SizeSpec> = {
     maxW: 320,
     w: 480,
     h: 720,
+  },
+  schedulePoster: {
+    frame: "w-full min-w-0 max-w-none",
+    box: "relative w-full",
+    maxH: 2400,
+    maxW: 1200,
+    w: 1024,
+    h: 1536,
+  },
+  galleryPhoto: {
+    frame: "w-full min-w-0 max-w-none",
+    box: "relative w-full",
+    maxH: 1400,
+    maxW: 1290,
+    w: 1290,
+    h: 1040,
   },
   schoolTeam: {
     frame: "w-full max-w-[10rem] sm:max-w-[11rem]",
@@ -149,6 +168,7 @@ export function sizeForAssetUrl(src: string): ContentImageSize {
   if (src.includes("/team.") || src.includes("/schools/")) return "schoolTeam";
   if (src.includes("program-picture")) return "programPoster";
   if (src.includes("/about/") || src.includes("about-feature")) return "landscapePoster";
+  if (src.includes("/central-pa-lions/")) return "galleryPhoto";
   return "compact";
 }
 
@@ -182,10 +202,16 @@ export function ContentImage({
   const isLandscapePoster = resolved === "landscapePoster";
   const isDivisionBanner = resolved === "divisionBanner";
   const isCertBadge = resolved === "certBadge";
+  const isNaturalFullWidth = resolved === "schedulePoster" || resolved === "galleryPhoto";
   const fillFrame =
-    isDirectoryTeam || isProgramPoster || isLandscapePoster || isDivisionBanner || isCertBadge;
+    isDirectoryTeam ||
+    isProgramPoster ||
+    isLandscapePoster ||
+    isDivisionBanner ||
+    isCertBadge ||
+    isNaturalFullWidth;
   const innerShell = fillFrame
-    ? isLandscapePoster
+    ? isNaturalFullWidth || isLandscapePoster
       ? "overflow-visible rounded-xl bg-transparent p-0"
       : "overflow-hidden rounded-xl bg-[#020a18]/40 p-0 sm:p-1"
     : "overflow-hidden rounded-xl border border-electric-blue/25 bg-[#020a18]/80 p-2";
@@ -204,61 +230,98 @@ export function ContentImage({
           priority={priority}
           onLoad={() => setLoaded(true)}
           className={`object-contain object-center transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"} ${
-            fillFrame ? "h-full w-full max-h-full max-w-full" : "h-auto max-h-full w-auto max-w-full"
+            isNaturalFullWidth
+              ? "h-auto w-full max-w-full"
+              : fillFrame
+                ? "h-full w-full max-h-full max-w-full"
+                : "h-auto max-h-full w-auto max-w-full"
           } ${className}`}
-          style={fillFrame ? { maxHeight: spec.maxH, maxWidth: "100%" } : { maxHeight: spec.maxH, maxWidth: spec.maxW }}
-          sizes={`(max-width: 768px) 90vw, ${spec.maxW}px`}
+          style={
+            isNaturalFullWidth
+              ? { width: "100%", height: "auto", maxHeight: "none", maxWidth: "100%" }
+              : fillFrame
+                ? { maxHeight: spec.maxH, maxWidth: "100%" }
+                : { maxHeight: spec.maxH, maxWidth: spec.maxW }
+          }
+          sizes={
+            isNaturalFullWidth
+              ? "(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 640px"
+              : `(max-width: 768px) 90vw, ${spec.maxW}px`
+          }
         />
       </div>
     </figure>
   );
 }
 
-/** Schedule posters — compact on team pages, larger grid on the schedules index. */
+function SchedulePosterLightbox({ src, alt }: { src: string; alt: string }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="group relative block w-full min-w-0 text-left"
+      >
+        <ContentImage src={src} alt={alt} size="schedulePoster" frameClassName="!mx-0 w-full max-w-none" />
+        <span className="absolute bottom-2 right-2 inline-flex items-center gap-1 rounded-full bg-black/70 px-2.5 py-1 text-[10px] font-medium text-white opacity-90 sm:text-xs">
+          <Expand className="h-3 w-3" aria-hidden />
+          Tap to enlarge
+        </span>
+      </button>
+      {open ? (
+        <div
+          className="fixed inset-0 z-[80] flex items-start justify-center overflow-y-auto bg-black/92 p-3 pt-14 sm:items-center sm:p-6"
+          role="dialog"
+          aria-modal="true"
+          aria-label={alt}
+        >
+          <button
+            type="button"
+            className="fixed right-3 top-3 z-[81] rounded-full bg-white/15 px-4 py-2 text-sm text-white hover:bg-white/25 sm:right-4 sm:top-4"
+            onClick={() => setOpen(false)}
+          >
+            Close
+          </button>
+          <Image
+            src={src}
+            alt={alt}
+            width={1200}
+            height={1800}
+            className="h-auto w-full max-w-4xl object-contain"
+            sizes="100vw"
+          />
+        </div>
+      ) : null}
+    </>
+  );
+}
+
+/** Schedule posters — full-width, readable, with tap-to-enlarge. */
 export function ScheduleImageGrid({
   images,
   altPrefix,
-  posterLayout = "compact",
+  posterLayout: _posterLayout = "page",
 }: {
   images: string[];
   altPrefix: string;
-  /** `page` = readable posters in a full-width responsive grid (schedules index). */
+  /** @deprecated Ignored — all schedules render full-width. */
   posterLayout?: "compact" | "page";
 }) {
   if (!images.length) return null;
 
-  if (posterLayout === "page") {
-    const colClass =
-      images.length === 1
-        ? "grid-cols-1 sm:max-w-sm"
-        : images.length === 2
-          ? "grid-cols-1 min-[420px]:grid-cols-2"
-          : "grid-cols-1 min-[420px]:grid-cols-2 lg:grid-cols-3";
-    return (
-      <div className={`grid w-full min-w-0 gap-3 sm:gap-4 ${colClass}`}>
-        {images.map((src, i) => (
-          <ContentImage
-            key={src}
-            src={src}
-            alt={`${altPrefix} ${i + 1}`}
-            size="scheduleCard"
-            frameClassName="!mx-0 w-full max-w-none"
-          />
-        ))}
-      </div>
-    );
-  }
+  const colClass =
+    images.length === 1
+      ? "grid-cols-1"
+      : images.length === 2
+        ? "grid-cols-1 sm:grid-cols-2"
+        : "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3";
 
   return (
-    <div className="flex max-w-full flex-wrap items-start justify-center gap-4 sm:gap-5">
+    <div className={`grid w-full min-w-0 gap-4 sm:gap-5 ${colClass}`}>
       {images.map((src, i) => (
-        <ContentImage
-          key={src}
-          src={src}
-          alt={`${altPrefix} ${i + 1}`}
-          size="schedule"
-          frameClassName="!mx-0"
-        />
+        <SchedulePosterLightbox key={src} src={src} alt={`${altPrefix} ${i + 1}`} />
       ))}
     </div>
   );

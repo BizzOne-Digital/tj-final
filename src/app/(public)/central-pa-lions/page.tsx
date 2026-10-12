@@ -36,7 +36,12 @@ export default function CentralPaLionsPage() {
 
       {LION_IMAGES.length > 0 && (
         <div className="mt-10">
-          <ContentImageGrid images={LION_IMAGES} altPrefix="Central PA Lions" columns={3} />
+          <ContentImageGrid
+            images={LION_IMAGES}
+            altPrefix="Central PA Lions"
+            columns={1}
+            size="galleryPhoto"
+          />
         </div>
       )}
 

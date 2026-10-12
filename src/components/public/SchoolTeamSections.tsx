@@ -129,8 +129,8 @@ export function SchoolTeamSections({
       <section>
         <h2 className="font-display text-xl uppercase text-ice-white">Schedule — {seasonSlug} season</h2>
         {schedules.length > 0 ? (
-          <div className="mt-4 max-w-4xl">
-            <ScheduleImageGrid images={schedules} altPrefix={`${school.name} schedule`} />
+          <div className="mt-4 min-w-0 w-full">
+            <ScheduleImageGrid images={schedules} altPrefix={`${school.name} schedule`} posterLayout="page" />
           </div>
         ) : (
           <p className="mt-2 text-cool-grey">Schedule images coming soon.</p>

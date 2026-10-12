@@ -35,7 +35,7 @@ const scheduleKeysBySlug: Record<string, string[]> = {
     "schools.moshannon-valley.schedule-2",
   ],
   "west-branch": ["schools.west-branch.schedule-1", "schools.west-branch.schedule-2"],
-  "mifflin-county": [],
+  "mifflin-county": ["schools.mifflin-county.schedule"],
 };
 
 export function schoolScheduleImages(slug: string): string[] {
