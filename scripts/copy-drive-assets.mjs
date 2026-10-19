@@ -6,7 +6,7 @@ const out = path.join(process.cwd(), "public", "league-assets");
 const docsOut = path.join(process.cwd(), "public", "league-docs");
 
 const copies = [
-  ["Main Page Heading/Pictures/Program Picture/ss2.jpg", "main/program-picture.jpg"],
+  ["__program_poster__", "main/program-picture.jpg"],
   ["INFORMATION/5-6 GRADE LEAGUE POSTER/grades-5-6.jpg", "divisions/grades-5-6.jpg"],
   ["INFORMATION/3-4 GRADE LEAGUE POSTER/grades-3-4.jpg", "divisions/grades-3-4.jpg"],
   ["Main Page Heading/Pictures/IMG_0757.JPG", "main/heading-gallery.jpg"],
@@ -161,6 +161,7 @@ for (const [rel, destRel] of copies) {
     continue;
   }
   if (
+    rel === "__program_poster__" ||
     rel === "__bellwood_34__" ||
     rel === "__bellwood_56__" ||
     rel === "__bellwood_56_blue__" ||

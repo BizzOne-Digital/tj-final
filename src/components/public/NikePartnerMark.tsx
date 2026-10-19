@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { MAIN_PROGRAM_PICTURE } from "@/lib/drive-assets";
+import { NIKE_MARK } from "@/lib/drive-assets";
 
 /** Nike branding appears on the official program graphic from the drive folder. */
 export function NikePartnerMark({ className = "" }: { className?: string }) {
@@ -11,7 +11,7 @@ export function NikePartnerMark({ className = "" }: { className?: string }) {
     >
       <div className="relative h-10 w-[88px] sm:h-11 sm:w-[96px]">
         <Image
-          src={MAIN_PROGRAM_PICTURE}
+          src={NIKE_MARK}
           alt="Nike — P-O Select League partner"
           fill
           className="object-cover object-[6%_18%] scale-[2.8]"

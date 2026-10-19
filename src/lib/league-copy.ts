@@ -1,7 +1,9 @@
 /** Static league copy from the P-O Select site spec (shown even before CMS edits). */
 
-export const HOME_LEAGUE_TITLE =
-  "PHILIPSBURG-OSCEOLA SELECT ELEMENTARY BASKETBALL LEAGUE";
+export const HOME_LEAGUE_TITLE = "THE SELECT TEAM LEAGUE";
+
+export const HOME_LEAGUE_SUBTITLE =
+  "Philipsburg-Osceola Select Elementary Basketball League";
 
 export const HOME_TAGLINE = "SMALL HANDS. BIG DREAMS. TOGETHER WE RAISE.";
 

@@ -24,6 +24,7 @@ import {
 } from "@/lib/league-copy";
 import {
   MAIN_ABOUT_PICTURE,
+  MAIN_PROGRAM_PICTURE,
   GOLDEN_TICKET_PICTURE,
   DIVISION_POSTER_GRADES_34,
   DIVISION_POSTER_GRADES_56,
@@ -45,7 +46,7 @@ export default async function HomePage() {
 
   const posterUrl =
     settings.brand?.seasonPoster?.url ?? "/brand/season-poster-2026-27.jpg";
-  const leagueInfoPoster = MAIN_ABOUT_PICTURE;
+  const leagueInfoPoster = MAIN_PROGRAM_PICTURE;
   return (
     <div className="w-full min-w-0 overflow-x-clip">
       <HomeHero
@@ -141,7 +142,7 @@ export default async function HomePage() {
               <div className="poster-preview w-full">
                 <PosterLightbox
                   src={leagueInfoPoster}
-                  alt="2026-27 P-O Select season — state championship invite poster"
+                  alt="The Select Team League — When LHAC meets ICC, 2026-27 season program poster"
                   layout="landscape"
                 />
               </div>

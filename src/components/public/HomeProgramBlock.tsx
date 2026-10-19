@@ -2,6 +2,7 @@ import { ContentImage } from "@/components/public/ContentImage";
 import { Reveal } from "@/components/motion/Reveal";
 import {
   HOME_HASHTAGS,
+  HOME_LEAGUE_SUBTITLE,
   HOME_LEAGUE_TITLE,
   HOME_QUOTE,
   HOME_SUPPORTING,
@@ -27,6 +28,9 @@ export function HomeProgramBlock() {
             <h2 className="mt-2 font-display text-2xl font-bold uppercase leading-tight text-ice-white md:text-3xl">
               {HOME_LEAGUE_TITLE}
             </h2>
+            <p className="mt-2 text-sm font-medium uppercase tracking-wide text-cool-grey md:text-base">
+              {HOME_LEAGUE_SUBTITLE}
+            </p>
             <p className="mt-4 font-display text-lg font-bold uppercase italic text-gold md:text-xl">
               {HOME_TAGLINE}
             </p>
