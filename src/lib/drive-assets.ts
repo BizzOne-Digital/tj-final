@@ -27,7 +27,8 @@ const scheduleKeysBySlug: Record<string, string[]> = {
   clearfield: ["schools.clearfield.schedule"],
   "bellwood-antis": [
     "schools.bellwood-antis.schedule-grades-3-4",
-    "schools.bellwood-antis.schedule",
+    "schools.bellwood-antis.schedule-grades-5-6",
+    "schools.bellwood-antis.schedule-grades-5-6-blue",
   ],
   "philipsburg-osceola": [
     "schools.philipsburg-osceola.schedule-grades-3-4",

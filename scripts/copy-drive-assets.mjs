@@ -13,27 +13,29 @@ const copies = [
   ["ABOUT US/EE5CAF73-5DAA-47A1-99A9-B4033902B190.PNG", "about/about-feature.png"],
   ["GOLDEN TICKET/907B921F-DF05-428D-B498-781E1BC71B83.PNG", "golden-ticket/picture.png"],
   ["TYRONE/3BE5C695-8356-48BB-9B3C-C3CE74112C6B.PNG", "schools/tyrone/team.png"],
-  ["TYRONE/SCHEDULES/1D527D5D-ED64-4961-BE3D-44DBBC7301B7.PNG", "schools/tyrone/schedule.png"],
+  ["__tyrone_56_schedule__", "schools/tyrone/schedule.jpg"],
   ["CLEARFIELD/AF1993F2-7E78-431E-A2EC-BDF1F3BD6EB6.PNG", "schools/clearfield/team.png"],
-  ["CLEARFIELD/Schedule/669DB9C1-7C96-4070-9604-267EF3D36E1A.PNG", "schools/clearfield/schedule.png"],
+  ["__clearfield_56_schedule__", "schools/clearfield/schedule.jpg"],
   ["BELLWOOD/CDD48F70-9FD5-4AE0-83F1-3EDB4A613FDD.PNG", "schools/bellwood-antis/team.png"],
   ["BELLWOOD/Schedule/E3CF84D6-FF4E-488A-8536-4B8A2AC211ED.PNG", "schools/bellwood-antis/schedule.png"],
   // 3/4 grade poster — committed under league-assets when not in Drive export
   ["__bellwood_34__", "schools/bellwood-antis/schedule-grades-3-4.jpg"],
+  ["__bellwood_56__", "schools/bellwood-antis/schedule-grades-5-6.jpg"],
+  ["__bellwood_56_blue__", "schools/bellwood-antis/schedule-grades-5-6-blue.jpg"],
   ["PHILIPSBURG-OSCEOLA/IMG_0786.PNG", "schools/philipsburg-osceola/team.png"],
   ["__po_34_schedule__", "schools/philipsburg-osceola/schedule-grades-3-4.jpg"],
-  ["PHILIPSBURG-OSCEOLA/Schedule/F24DA4F6-8D2C-45E0-9145-CAE5C19DC06E.PNG", "schools/philipsburg-osceola/schedule-grades-5-6.png"],
+  ["__po_56_schedule__", "schools/philipsburg-osceola/schedule-grades-5-6.jpg"],
   ["MO VALLEY/IMG_0784.PNG", "schools/moshannon-valley/team.png"],
   ["__mo_valley_34_schedule__", "schools/moshannon-valley/schedule-1.jpg"],
-  ["MO VALLEY/Schedule/C233CEA2-5129-4222-9363-2AE6DA4FD597.PNG", "schools/moshannon-valley/schedule-2.png"],
+  ["__mo_valley_56_schedule__", "schools/moshannon-valley/schedule-2.jpg"],
   ["WEST BRANCH/IMG_0785.PNG", "schools/west-branch/team.png"],
   ["MIFFLIN COUNTY/team.jpg", "schools/mifflin-county/team.jpg"],
   ["__mifflin_huskies_schedule__", "schools/mifflin-county/schedule-huskies.jpg"],
   ["__mifflin_purple_schedule__", "schools/mifflin-county/schedule-4th-grade-purple.jpg"],
   ["__west_branch_4th_schedule__", "schools/west-branch/schedule-1.jpg"],
-  ["WEST BRANCH/Schedule/BB46EA70-06E8-46B8-91CB-C904419A54E0.PNG", "schools/west-branch/schedule-2.png"],
+  ["__west_branch_56_schedule__", "schools/west-branch/schedule-2.jpg"],
   ["__league_34_schedule__", "information/4th-grade-team-schedules.jpg"],
-  ["INFORMATION/6th GRADE TEAM SCHEDULES/CAE06CE6-3E19-4AF6-8D91-6CA4FBBE22F5.PNG", "information/6th-grade-team-schedules.png"],
+  ["__league_56_schedule__", "information/6th-grade-team-schedules.jpg"],
   ["INFORMATION/CENTRAL PA LIONS/Pictures/IMG_0074.jpg", "central-pa-lions/1.jpg"],
   ["INFORMATION/CENTRAL PA LIONS/Pictures/IMG_0076.jpg", "central-pa-lions/2.jpg"],
   ["INFORMATION/CENTRAL PA LIONS/Pictures/IMG_0077.jpg", "central-pa-lions/3.jpg"],
@@ -160,7 +162,15 @@ for (const [rel, destRel] of copies) {
   }
   if (
     rel === "__bellwood_34__" ||
+    rel === "__bellwood_56__" ||
+    rel === "__bellwood_56_blue__" ||
+    rel === "__tyrone_56_schedule__" ||
+    rel === "__clearfield_56_schedule__" ||
+    rel === "__po_56_schedule__" ||
+    rel === "__mo_valley_56_schedule__" ||
+    rel === "__west_branch_56_schedule__" ||
     rel === "__league_34_schedule__" ||
+    rel === "__league_56_schedule__" ||
     rel === "__mifflin_huskies_schedule__" ||
     rel === "__mifflin_purple_schedule__" ||
     rel === "__mo_valley_34_schedule__" ||
