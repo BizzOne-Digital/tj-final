@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Barlow_Condensed, Inter } from "next/font/google";
-import { OG_PROGRAM_POSTER } from "@/lib/brand-assets";
+import { OG_SHARE_HEIGHT, OG_SHARE_IMAGE, OG_SHARE_WIDTH } from "@/lib/brand-assets";
 import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
@@ -34,10 +34,10 @@ export const metadata: Metadata = {
     description: siteDescription,
     images: [
       {
-        url: OG_PROGRAM_POSTER,
-        width: 1080,
-        height: 1620,
-        alt: "P-O Select Winter Basketball League — When LHAC meets ICC, 2026-27 season",
+        url: OG_SHARE_IMAGE,
+        width: OG_SHARE_WIDTH,
+        height: OG_SHARE_HEIGHT,
+        alt: "P-O Select Elementary Winter Basketball League",
       },
     ],
   },
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "P-O Select Elementary Basketball League",
     description: siteDescription,
-    images: [OG_PROGRAM_POSTER],
+    images: [OG_SHARE_IMAGE],
   },
   icons: {
     icon: [
