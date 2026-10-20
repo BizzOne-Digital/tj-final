@@ -6,6 +6,7 @@ import {
 } from "@/lib/league-copy";
 import { TeamFormLinks } from "@/components/public/TeamFormLinks";
 import { schoolScheduleImages, schoolTeamImage } from "@/lib/drive-assets";
+import { contactCoachLinesFromConfig } from "@/lib/school-coaches";
 import type { JsonDoc } from "@/lib/services/league";
 
 const WEEKLY_PLACEHOLDERS = [
@@ -33,16 +34,19 @@ export function SchoolTeamSections({
   const teamImg = schoolTeamImage(slug);
   const schedules = schoolScheduleImages(slug);
 
-  const coachLines = schoolTeams.flatMap((t) => {
-    const coaches =
-      (t.coaches as { name?: string; role?: string; email?: string }[] | undefined) ?? [];
-    const div = String((t.divisionId as { displayName?: string })?.displayName ?? "");
-    return coaches.map((c) => ({
-      name: c.name ?? "Coach",
-      division: c.role?.trim() ? c.role : div,
-      email: c.email?.trim() ?? "",
-    }));
-  });
+  const configuredCoaches = contactCoachLinesFromConfig(slug);
+  const coachLines =
+    configuredCoaches ??
+    schoolTeams.flatMap((t) => {
+      const coaches =
+        (t.coaches as { name?: string; role?: string; email?: string }[] | undefined) ?? [];
+      const div = String((t.divisionId as { displayName?: string })?.displayName ?? "");
+      return coaches.map((c) => ({
+        name: c.name ?? "Coach",
+        division: c.role?.trim() ? c.role : div,
+        email: c.email?.trim() ?? "",
+      }));
+    });
 
   const uniqueCoaches = [...new Map(coachLines.map((c) => [c.name, c])).values()];
 
