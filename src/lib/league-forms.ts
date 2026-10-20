@@ -7,6 +7,7 @@ export const YEARLY_FORM_SLUGS = [
   "2026-league-roster",
   "zero-tolerance-photography",
   "photo-release",
+  "po-select-league-report-cards",
 ] as const;
 
 export const WEEKLY_FORM_SLUGS = [
@@ -21,6 +22,12 @@ export const WEEKLY_FORM_SLUGS = [
 /** Canonical Google Form URLs (used when DB resource has no externalUrl yet). */
 export const FORM_EXTERNAL_URLS: Partial<Record<string, string>> = {
   "zero-tolerance-photography": "https://forms.gle/ZKoCR77TABB2zqys8",
+  "po-select-league-report-cards": "https://forms.gle/8yEEVYi3GzGUNK4u6",
+};
+
+/** Optional `title` on external form links (browser tooltip). */
+export const FORM_LINK_TITLES: Partial<Record<string, string>> = {
+  "po-select-league-report-cards": "‼️P-O Select League Report Cards (Google Form Link)",
 };
 
 export function formExternalUrl(slug: string): string | undefined {
@@ -34,6 +41,7 @@ export const YEARLY_FORM_LABELS: Record<string, string> = {
   "2026-league-roster": "2026 League Roster",
   "zero-tolerance-photography": "Zero Tolerance Photography & Recording Policy",
   "photo-release": "Public Relations Internet and Photo Release Form",
+  "po-select-league-report-cards": "✅‼️ P-O Select League Report Cards",
 };
 
 export const WEEKLY_FORM_LABELS: Record<string, string> = {

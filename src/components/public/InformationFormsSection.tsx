@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { leagueDocUrl } from "@/lib/league-docs";
 import {
+  FORM_LINK_TITLES,
   formExternalUrl,
   WEEKLY_FORM_LABELS,
   WEEKLY_FORM_SLUGS,
@@ -38,7 +39,13 @@ export function InformationFormsSection({ resources }: { resources: JsonDoc[] })
             return (
               <li key={slug}>
                 {external ? (
-                  <a href={href} target="_blank" rel="noopener noreferrer" className="text-electric-blue hover:underline">
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={FORM_LINK_TITLES[slug]}
+                    className="text-electric-blue hover:underline"
+                  >
                     {label}
                   </a>
                 ) : (

@@ -123,6 +123,12 @@ const RESOURCES = [
     slug: "zero-tolerance-photography",
     externalUrl: "https://forms.gle/ZKoCR77TABB2zqys8",
   },
+  {
+    stableKey: "po-select-league-report-cards",
+    title: "✅‼️ P-O Select League Report Cards",
+    slug: "po-select-league-report-cards",
+    externalUrl: "https://forms.gle/8yEEVYi3GzGUNK4u6",
+  },
 ];
 
 const SCHOOLS = [

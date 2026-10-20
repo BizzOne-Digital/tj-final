@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {
+  FORM_LINK_TITLES,
   formExternalUrl,
   WEEKLY_FORM_LABELS,
   WEEKLY_FORM_SLUGS,
@@ -32,6 +33,7 @@ function FormList({
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
+                title={FORM_LINK_TITLES[slug]}
                 className="text-electric-blue hover:underline"
               >
                 {title}
