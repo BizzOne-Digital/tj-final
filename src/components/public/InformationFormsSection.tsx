@@ -18,7 +18,7 @@ function linkFor(slug: string, resources: JsonDoc[]) {
     return {
       href: formUrl,
       external: true,
-      label: String(r?.title ?? YEARLY_FORM_LABELS[slug] ?? WEEKLY_FORM_LABELS[slug] ?? slug),
+      label: YEARLY_FORM_LABELS[slug] ?? WEEKLY_FORM_LABELS[slug] ?? String(r?.title ?? slug),
     };
   }
   if (doc) {

@@ -125,7 +125,7 @@ const RESOURCES = [
   },
   {
     stableKey: "po-select-league-report-cards",
-    title: "✅‼️ P-O Select League Report Cards",
+    title: "P-O Select League Report Cards",
     slug: "po-select-league-report-cards",
     externalUrl: "https://forms.gle/8yEEVYi3GzGUNK4u6",
   },

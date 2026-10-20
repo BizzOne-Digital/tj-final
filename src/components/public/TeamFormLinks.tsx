@@ -23,7 +23,7 @@ function FormList({
     <ul className="mt-4 space-y-2">
       {slugs.map((slug, i) => {
         const r = bySlug.get(slug);
-        const title = r ? String(r.title) : labels[slug] ?? slug;
+        const title = labels[slug] ?? (r ? String(r.title) : slug);
         const href = r?.externalUrl ? String(r.externalUrl) : formExternalUrl(slug);
         return (
           <li key={slug} className="flex gap-2 text-sm">
