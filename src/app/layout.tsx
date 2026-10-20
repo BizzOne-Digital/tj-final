@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { Barlow_Condensed, Inter } from "next/font/google";
-import { OG_SHARE_HEIGHT, OG_SHARE_IMAGE, OG_SHARE_WIDTH } from "@/lib/brand-assets";
-import { getSiteUrl } from "@/lib/site-url";
+import {
+  OG_SHARE_HEIGHT,
+  OG_SHARE_IMAGE_ABSOLUTE,
+  OG_SHARE_WIDTH,
+} from "@/lib/brand-assets";
+import { getSiteUrl, PRODUCTION_SITE } from "@/lib/site-url";
 import "./globals.css";
 
 const siteDescription =
@@ -19,8 +23,11 @@ const body = Inter({
   variable: "--font-body",
 });
 
+const metadataOrigin =
+  process.env.NODE_ENV === "development" ? getSiteUrl() : PRODUCTION_SITE;
+
 export const metadata: Metadata = {
-  metadataBase: new URL(getSiteUrl()),
+  metadataBase: new URL(metadataOrigin),
   title: {
     default: "P-O Select Elementary Basketball League",
     template: "%s | P-O Select League",
@@ -34,7 +41,7 @@ export const metadata: Metadata = {
     description: siteDescription,
     images: [
       {
-        url: OG_SHARE_IMAGE,
+        url: OG_SHARE_IMAGE_ABSOLUTE,
         width: OG_SHARE_WIDTH,
         height: OG_SHARE_HEIGHT,
         alt: "P-O Select Elementary Winter Basketball League",
@@ -45,7 +52,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "P-O Select Elementary Basketball League",
     description: siteDescription,
-    images: [OG_SHARE_IMAGE],
+    images: [OG_SHARE_IMAGE_ABSOLUTE],
   },
   icons: {
     icon: [
