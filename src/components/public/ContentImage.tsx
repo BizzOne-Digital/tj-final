@@ -131,9 +131,9 @@ const SPECS: Record<ContentImageSize, SizeSpec> = {
   },
   programPoster: {
     frame: "w-full min-w-0 max-w-none",
-    box: "relative flex w-full aspect-[2/3] items-center justify-center p-0",
-    maxH: 1200,
-    maxW: 960,
+    box: "relative w-full",
+    maxH: 2400,
+    maxW: 1200,
     w: 1080,
     h: 1620,
   },
@@ -198,14 +198,13 @@ export function ContentImage({
   const resolved = resolveImageSize(size, src);
   const spec = SPECS[resolved];
   const isDirectoryTeam = resolved === "schoolTeamDirectory";
-  const isProgramPoster = resolved === "programPoster";
   const isLandscapePoster = resolved === "landscapePoster";
   const isDivisionBanner = resolved === "divisionBanner";
   const isCertBadge = resolved === "certBadge";
-  const isNaturalFullWidth = resolved === "schedulePoster" || resolved === "galleryPhoto";
+  const isNaturalFullWidth =
+    resolved === "schedulePoster" || resolved === "galleryPhoto" || resolved === "programPoster";
   const fillFrame =
     isDirectoryTeam ||
-    isProgramPoster ||
     isLandscapePoster ||
     isDivisionBanner ||
     isCertBadge ||

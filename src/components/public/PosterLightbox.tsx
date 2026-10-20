@@ -7,6 +7,8 @@ import { Expand } from "lucide-react";
 /** State championship invite banner (landscape, ~5:3). */
 const POSTER_W = 1500;
 const POSTER_H = 900;
+const PROGRAM_POSTER_W = 1080;
+const PROGRAM_POSTER_H = 1620;
 
 export function PosterLightbox({
   src,
@@ -17,11 +19,14 @@ export function PosterLightbox({
   src: string;
   alt: string;
   previewMaxHeight?: number;
-  /** `landscape` — full-width beside prose (no empty stretch below poster). */
-  layout?: "stacked" | "landscape";
+  /** `landscape` — wide banner. `portrait` — full program poster without cropping. */
+  layout?: "stacked" | "landscape" | "portrait";
 }) {
   const [open, setOpen] = useState(false);
   const isLandscape = layout === "landscape";
+  const isPortrait = layout === "portrait";
+  const imgW = isPortrait ? PROGRAM_POSTER_W : POSTER_W;
+  const imgH = isPortrait ? PROGRAM_POSTER_H : POSTER_H;
 
   return (
     <>
@@ -29,30 +34,38 @@ export function PosterLightbox({
         type="button"
         onClick={() => setOpen(true)}
         className={
-          isLandscape
+          isLandscape || isPortrait
             ? "group relative block w-full overflow-hidden rounded-xl ring-2 ring-electric-blue/30"
             : "group relative mx-auto block w-full max-w-sm overflow-hidden rounded-xl ring-2 ring-electric-blue/30"
         }
       >
         <div
           className={
-            isLandscape
+            isLandscape || isPortrait
               ? "flex w-full items-center justify-center bg-[#020a18]/50 p-1 sm:p-2"
               : "flex items-center justify-center bg-[#020a18]/60 p-2"
           }
           style={
             isLandscape
               ? { aspectRatio: `${POSTER_W} / ${POSTER_H}` }
-              : { minHeight: previewMaxHeight, maxHeight: previewMaxHeight }
+              : isPortrait
+                ? undefined
+                : { minHeight: previewMaxHeight, maxHeight: previewMaxHeight }
           }
         >
           <Image
             src={src}
             alt={alt}
-            width={POSTER_W}
-            height={POSTER_H}
-            className="h-auto max-h-full w-full max-w-full object-contain object-center transition duration-500 group-hover:scale-[1.02]"
-            sizes={isLandscape ? "(max-width: 1024px) 90vw, 520px" : "(max-width: 768px) 80vw, 320px"}
+            width={imgW}
+            height={imgH}
+            className="h-auto w-full max-w-full object-contain object-center transition duration-500 group-hover:scale-[1.02]"
+            sizes={
+              isPortrait
+                ? "(max-width: 1024px) 92vw, 480px"
+                : isLandscape
+                  ? "(max-width: 1024px) 90vw, 520px"
+                  : "(max-width: 768px) 80vw, 320px"
+            }
           />
         </div>
         <span className="absolute bottom-2 right-2 inline-flex items-center gap-1 rounded-full bg-black/60 px-2 py-0.5 text-[10px] text-white">
@@ -76,8 +89,8 @@ export function PosterLightbox({
           <Image
             src={src}
             alt={alt}
-            width={POSTER_W}
-            height={POSTER_H}
+            width={imgW}
+            height={imgH}
             className="max-h-[85vh] w-auto max-w-[min(92vw,960px)] object-contain"
           />
         </div>

@@ -143,7 +143,7 @@ export default async function HomePage() {
                 <PosterLightbox
                   src={leagueInfoPoster}
                   alt="The Select Team League — When LHAC meets ICC, 2026-27 season program poster"
-                  layout="landscape"
+                  layout="portrait"
                 />
               </div>
             </Reveal>
