@@ -168,10 +168,7 @@ const SCHOOLS = [
     coaches: [
       {
         divisionKey: "grades-5-6",
-        coaches: [
-          "Kyley Longo",
-          { name: "Aaron Gray", role: "6th Grade Blue" },
-        ],
+        coaches: ["Kyley Longo", "Aaron Gray"],
       },
     ],
   },
