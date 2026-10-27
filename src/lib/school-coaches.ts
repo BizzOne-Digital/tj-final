@@ -17,7 +17,7 @@ export const SCHOOL_COACH_BLOCKS: Partial<Record<string, SchoolCoachBlock[]>> = 
   "bellwood-antis": [
     {
       divisionKey: "grades-5-6",
-      coaches: ["Kyley Longo", "Aaron Gray"],
+      coaches: ["Aaron Gray"],
     },
     {
       divisionKey: "grades-3-4",
