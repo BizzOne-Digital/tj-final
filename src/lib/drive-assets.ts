@@ -30,7 +30,8 @@ const scheduleKeysBySlug: Record<string, string[]> = {
     "schools.bellwood-antis.schedule-grades-5-6-blue",
   ],
   "philipsburg-osceola": [
-    "schools.philipsburg-osceola.schedule-grades-3-4",
+    "schools.philipsburg-osceola.schedule-grades-3",
+    "schools.philipsburg-osceola.schedule-grades-4",
     "schools.philipsburg-osceola.schedule-grades-5-6",
   ],
   "moshannon-valley": [

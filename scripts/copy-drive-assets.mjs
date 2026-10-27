@@ -23,7 +23,8 @@ const copies = [
   ["__bellwood_56__", "schools/bellwood-antis/schedule-grades-5-6.jpg"],
   ["__bellwood_56_blue__", "schools/bellwood-antis/schedule-grades-5-6-blue.jpg"],
   ["PHILIPSBURG-OSCEOLA/IMG_0786.PNG", "schools/philipsburg-osceola/team.png"],
-  ["__po_34_schedule__", "schools/philipsburg-osceola/schedule-grades-3-4.jpg"],
+  ["__po_3_schedule__", "schools/philipsburg-osceola/schedule-grades-3.jpg"],
+  ["__po_4_schedule__", "schools/philipsburg-osceola/schedule-grades-4.jpg"],
   ["__po_56_schedule__", "schools/philipsburg-osceola/schedule-grades-5-6.jpg"],
   ["MO VALLEY/IMG_0784.PNG", "schools/moshannon-valley/team.png"],
   ["__mo_valley_34_schedule__", "schools/moshannon-valley/schedule-1.jpg"],
@@ -168,6 +169,8 @@ for (const [rel, destRel] of copies) {
     rel === "__bellwood_56_blue__" ||
     rel === "__tyrone_56_schedule__" ||
     rel === "__clearfield_56_schedule__" ||
+    rel === "__po_3_schedule__" ||
+    rel === "__po_4_schedule__" ||
     rel === "__po_56_schedule__" ||
     rel === "__mo_valley_56_schedule__" ||
     rel === "__west_branch_56_schedule__" ||
@@ -176,7 +179,6 @@ for (const [rel, destRel] of copies) {
     rel === "__mifflin_huskies_schedule__" ||
     rel === "__mifflin_purple_schedule__" ||
     rel === "__mo_valley_34_schedule__" ||
-    rel === "__po_34_schedule__" ||
     rel === "__west_branch_4th_schedule__"
   ) {
     if (!fs.existsSync(dest)) {
