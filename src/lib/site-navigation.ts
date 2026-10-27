@@ -10,7 +10,7 @@ export const PRIMARY_NAV: NavItem[] = [
 
 export const LEAGUE_MENU: NavItem[] = [
   { href: "/information", label: "Information Hub" },
-  { href: "/information/how-can-we-be-better", label: "‼️ How Can We Be Better?" },
+  { href: "/information/how-can-we-be-better", label: "How Can We Be Better?" },
   { href: "/team-directory", label: "Team Directory" },
   { href: "/standings", label: "League Standings" },
   { href: "/scores", label: "Scores" },

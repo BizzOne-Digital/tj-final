@@ -77,7 +77,7 @@ export function InformationFormsSection({ resources }: { resources: JsonDoc[] })
         </ol>
         <p className="mt-4 text-sm">
           <Link href="/information/how-can-we-be-better" className="font-semibold text-electric-blue hover:underline">
-            ‼️ How Can We Be Better? — form &amp; document →
+            How Can We Be Better? — form &amp; document →
           </Link>
         </p>
       </section>

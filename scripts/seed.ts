@@ -183,8 +183,14 @@ const SCHOOLS = [
     programLink:
       "https://www.facebook.com/share/1KE1JKvqqz/?mibextid=wwXIfr",
     coaches: [
-      { divisionKey: "grades-3-4", coaches: [] },
-      { divisionKey: "grades-5-6", coaches: [] },
+      {
+        divisionKey: "grades-5-6",
+        coaches: [{ name: "Dave Zimmermann", role: "Grades 5-6" }],
+      },
+      {
+        divisionKey: "grades-3-4",
+        coaches: [{ name: "Dave Zimmermann", role: "Grades 3-4" }],
+      },
     ],
   },
   {

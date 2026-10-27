@@ -30,7 +30,12 @@ export async function getActiveSeason() {
 export async function getSchools(): Promise<JsonDoc[]> {
   if (!isDatabaseConfigured()) return previewSchools as JsonDoc[];
   await connectMongoose();
-  const schools = await SchoolProgram.find().sort({ sortOrder: 1, name: 1 }).lean();
+  const schools = (await SchoolProgram.find().sort({ sortOrder: 1, name: 1 }).lean()) as JsonDoc[];
+  const slugs = new Set(schools.map((s) => String(s.slug)));
+  for (const p of previewSchools) {
+    if (!slugs.has(p.slug)) schools.push(p as JsonDoc);
+  }
+  schools.sort((a, b) => String(a.name).localeCompare(String(b.name)));
   return serialize(schools) as JsonDoc[];
 }
 

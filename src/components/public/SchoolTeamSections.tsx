@@ -9,15 +9,7 @@ import { schoolScheduleImages, schoolTeamImage } from "@/lib/drive-assets";
 import { contactCoachLinesFromConfig } from "@/lib/school-coaches";
 import type { JsonDoc } from "@/lib/services/league";
 
-const WEEKLY_PLACEHOLDERS = [
-  "Week #1",
-  "Week #2",
-  "Week #3",
-  "Week #4",
-  "Week #5",
-  "Week #6",
-  "Week #7",
-];
+const WEEKLY_PLACEHOLDERS = ["Week #1", "Week #2", "Week #3", "Week #4", "Week #5"];
 
 export function SchoolTeamSections({
   school,
@@ -48,7 +40,9 @@ export function SchoolTeamSections({
       }));
     });
 
-  const uniqueCoaches = [...new Map(coachLines.map((c) => [c.name, c])).values()];
+  const uniqueCoaches = [
+    ...new Map(coachLines.map((c) => [`${c.name}|${c.division}`, c])).values(),
+  ];
 
   return (
     <div className="not-prose space-y-12">
@@ -73,7 +67,7 @@ export function SchoolTeamSections({
         ) : (
           <ul className="mt-3 space-y-2 text-cool-grey">
             {uniqueCoaches.map((c) => (
-              <li key={c.name}>
+              <li key={`${c.name}|${c.division}`}>
                 <span className="font-semibold text-ice-white">Coach:</span> {c.name}
                 {c.division ? <span className="text-sm"> ({c.division})</span> : null}
                 {c.email ? (

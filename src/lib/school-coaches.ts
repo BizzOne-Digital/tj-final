@@ -30,6 +30,16 @@ export const SCHOOL_COACH_BLOCKS: Partial<Record<string, SchoolCoachBlock[]>> = 
       coaches: ["Jimmy Thompson"],
     },
   ],
+  punxsutawney: [
+    {
+      divisionKey: "grades-5-6",
+      coaches: [{ name: "Dave Zimmermann", role: "Grades 5-6" }],
+    },
+    {
+      divisionKey: "grades-3-4",
+      coaches: [{ name: "Dave Zimmermann", role: "Grades 3-4" }],
+    },
+  ],
   "mifflin-county": [
     {
       divisionKey: "grades-3-4",
