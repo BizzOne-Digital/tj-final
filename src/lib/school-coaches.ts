@@ -24,6 +24,12 @@ export const SCHOOL_COACH_BLOCKS: Partial<Record<string, SchoolCoachBlock[]>> = 
       coaches: [{ name: "Doug Brown", role: "3-4th Grade" }],
     },
   ],
+  clearfield: [
+    {
+      divisionKey: "grades-5-6",
+      coaches: ["Jimmy Thompson"],
+    },
+  ],
   "mifflin-county": [
     {
       divisionKey: "grades-3-4",
