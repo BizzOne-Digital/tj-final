@@ -177,6 +177,17 @@ const SCHOOLS = [
     ],
   },
   {
+    stableKey: "punxsutawney",
+    slug: "punxsutawney",
+    name: "Punxsutawney",
+    programLink:
+      "https://www.facebook.com/share/1KE1JKvqqz/?mibextid=wwXIfr",
+    coaches: [
+      { divisionKey: "grades-3-4", coaches: [] },
+      { divisionKey: "grades-5-6", coaches: [] },
+    ],
+  },
+  {
     stableKey: "mifflin-county",
     slug: "mifflin-county",
     name: "Mifflin County",

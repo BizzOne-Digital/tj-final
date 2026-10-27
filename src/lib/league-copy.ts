@@ -86,5 +86,6 @@ export const LHAC_SLUGS = [
   "bellwood-antis",
   "philipsburg-osceola",
   "mifflin-county",
+  "punxsutawney",
 ] as const;
 export const ICC_SLUGS = ["moshannon-valley", "west-branch"] as const;

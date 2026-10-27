@@ -28,6 +28,7 @@ export const ALL_SCHOOL_TEAM_IMAGES: string[] = [
   "schools.moshannon-valley.team",
   "schools.west-branch.team",
   "schools.mifflin-county.team",
+  "schools.punxsutawney.team",
 ]
   .map((k) => m[k])
   .filter(Boolean);

@@ -114,4 +114,10 @@ export const previewSchools = [
     tabAlias: "Mifflin County",
     programLink: "https://www.facebook.com/share/19nEiubQzM/?mibextid=wwXIfr",
   },
+  {
+    slug: "punxsutawney",
+    name: "Punxsutawney",
+    programLink:
+      "https://www.facebook.com/share/1KE1JKvqqz/?mibextid=wwXIfr",
+  },
 ];

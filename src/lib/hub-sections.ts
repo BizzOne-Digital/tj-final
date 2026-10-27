@@ -91,6 +91,7 @@ const TEAM_4TH = [
   { slug: "west-branch", label: "West Branch" },
   { slug: "moshannon-valley", label: "Mo Valley" },
   { slug: "mifflin-county", label: "Mifflin County" },
+  { slug: "punxsutawney", label: "Punxsutawney" },
 ];
 
 const TEAM_6TH = [
@@ -100,6 +101,7 @@ const TEAM_6TH = [
   { slug: "clearfield", label: "Clearfield" },
   { slug: "west-branch", label: "West Branch" },
   { slug: "moshannon-valley", label: "Mo Valley" },
+  { slug: "punxsutawney", label: "Punxsutawney" },
 ];
 
 export function teamDirectoryBlocks(): HubBlock[] {

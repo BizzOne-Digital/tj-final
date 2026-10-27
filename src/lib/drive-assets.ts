@@ -15,6 +15,7 @@ const schoolTeamKeys: Record<string, string> = {
   "moshannon-valley": "schools.moshannon-valley.team",
   "west-branch": "schools.west-branch.team",
   "mifflin-county": "schools.mifflin-county.team",
+  punxsutawney: "schools.punxsutawney.team",
 };
 
 export function schoolTeamImage(slug: string): string | undefined {
