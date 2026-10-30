@@ -21,8 +21,21 @@ export const WEEKLY_FORM_SLUGS = [
 
 /** Canonical Google Form URLs (used when DB resource has no externalUrl yet). */
 export const FORM_EXTERNAL_URLS: Partial<Record<string, string>> = {
+  "player-waiver": "https://forms.gle/M1BWtZKdfmUXZD7L8",
+  "players-code-of-conduct": "https://forms.gle/hJcATXJQ19rGXdaf6",
+  "parent-guardian-code-of-conduct": "https://forms.gle/RDDBYNJdFud1BGZr7",
+  "2026-league-roster": "https://forms.gle/pkCJd3T7DWAayL5s7",
   "zero-tolerance-photography": "https://forms.gle/ZKoCR77TABB2zqys8",
+  "photo-release": "https://forms.gle/gMqPbEUDQCboHHqaA",
   "po-select-league-report-cards": "https://forms.gle/8yEEVYi3GzGUNK4u6",
+  "injury-report": "https://forms.gle/kukWycq3AerWwPoPA",
+  "all-star-selection": "https://forms.gle/BUsQbrQYF3ze5FTc9",
+  "player-of-the-game-voting": "https://forms.gle/1UzbvqyshDGJh2RF6",
+  "play-of-the-game-voting": "https://forms.gle/1UzbvqyshDGJh2RF6",
+  "contacts-for-next-season": "https://forms.gle/P3yD2o8ZYKBGKpwQ9",
+  "share-family-story": "https://forms.gle/NNGAzzoQvKdcYfMj7",
+  "game-officials-feedback": "https://forms.gle/MnkwjVy5rp8dRJVA7",
+  "how-can-we-be-better": "https://forms.gle/ssNTUSPzgph9yiaq7",
 };
 
 /** Optional `title` on external form links (browser tooltip). */
