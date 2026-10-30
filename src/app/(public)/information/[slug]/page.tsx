@@ -6,7 +6,7 @@ import { isDatabaseConfigured } from "@/lib/env";
 import type { JsonDoc } from "@/lib/services/league";
 import { InnerPage } from "@/components/public/InnerPage";
 import { ScheduleImageGrid } from "@/components/public/ContentImage";
-import { formExternalUrl } from "@/lib/league-forms";
+import { formExternalUrl, WEEKLY_FORM_LABELS, YEARLY_FORM_LABELS } from "@/lib/league-forms";
 import { leagueDocUrl } from "@/lib/league-docs";
 import { driveAsset } from "@/lib/drive-assets";
 import { LeagueDocumentEmbed } from "@/components/public/LeagueDocumentEmbed";
@@ -53,9 +53,11 @@ export default async function InformationDetailPage({
     resource = row ? (row as JsonDoc) : null;
   }
 
-  if (!resource && !docUrl) notFound();
+  if (!resource && !docUrl && !formExternalUrl(slug)) notFound();
 
-  const title = resource?.title ? String(resource.title) : slug.replace(/-/g, " ");
+  const title = resource?.title
+    ? String(resource.title)
+    : (YEARLY_FORM_LABELS[slug] ?? WEEKLY_FORM_LABELS[slug] ?? slug.replace(/-/g, " "));
   const subtitle = resource?.category ? String(resource.category) : "League document";
   const formUrl = resource?.externalUrl
     ? String(resource.externalUrl)

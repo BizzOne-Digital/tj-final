@@ -45,7 +45,8 @@ export async function getSchoolBySlug(slug: string) {
   }
   await connectMongoose();
   const school = await SchoolProgram.findOne({ slug }).lean();
-  return school ? serialize(school) : null;
+  if (school) return serialize(school);
+  return previewSchools.find((s) => s.slug === slug) ?? null;
 }
 
 export async function getDivisionsForSeason(seasonSlug: string): Promise<JsonDoc[]> {
