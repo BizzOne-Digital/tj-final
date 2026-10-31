@@ -32,6 +32,8 @@ const copies = [
   ["WEST BRANCH/IMG_0785.PNG", "schools/west-branch/team.png"],
   ["MIFFLIN COUNTY/team.jpg", "schools/mifflin-county/team.jpg"],
   ["__punxsutawney_team__", "schools/punxsutawney/team.jpg"],
+  ["__punxsutawney_4_schedule__", "schools/punxsutawney/schedule-grade-4.jpg"],
+  ["__punxsutawney_6_schedule__", "schools/punxsutawney/schedule-grade-6.jpg"],
   ["__mifflin_huskies_schedule__", "schools/mifflin-county/schedule-huskies.jpg"],
   ["__mifflin_purple_schedule__", "schools/mifflin-county/schedule-4th-grade-purple.jpg"],
   ["__west_branch_4th_schedule__", "schools/west-branch/schedule-1.jpg"],
@@ -165,6 +167,8 @@ for (const [rel, destRel] of copies) {
   if (
     rel === "__program_poster__" ||
     rel === "__punxsutawney_team__" ||
+    rel === "__punxsutawney_4_schedule__" ||
+    rel === "__punxsutawney_6_schedule__" ||
     rel === "__grades_56_poster__" ||
     rel === "__bellwood_34__" ||
     rel === "__bellwood_56__" ||

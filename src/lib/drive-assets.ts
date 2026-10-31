@@ -40,6 +40,10 @@ const scheduleKeysBySlug: Record<string, string[]> = {
     "schools.moshannon-valley.schedule-2",
   ],
   "west-branch": ["schools.west-branch.schedule-1", "schools.west-branch.schedule-2"],
+  punxsutawney: [
+    "schools.punxsutawney.schedule-grade-4",
+    "schools.punxsutawney.schedule-grade-6",
+  ],
   "mifflin-county": [
     "schools.mifflin-county.schedule-huskies",
     "schools.mifflin-county.schedule-4th-grade-purple",
