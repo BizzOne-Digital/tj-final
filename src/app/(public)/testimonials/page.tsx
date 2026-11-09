@@ -1,10 +1,12 @@
 ﻿import { InnerPage } from "@/components/public/InnerPage";
-import { TESTIMONIALS_BLURB } from "@/lib/league-copy";
+import { CmsHtml } from "@/components/public/CmsHtml";
+import { getCms } from "@/lib/cms/content";
 
-export default function TestimonialsPage() {
+export default async function TestimonialsPage() {
+  const cms = await getCms();
   return (
-    <InnerPage title="Select Families Speak" subtitle="Stories from our Select League family">
-      <div dangerouslySetInnerHTML={{ __html: TESTIMONIALS_BLURB }} />
+    <InnerPage title={cms.text("testimonials.title")} subtitle={cms.text("testimonials.subtitle")}>
+      <CmsHtml html={cms.html("testimonials.html")} />
     </InnerPage>
   );
 }

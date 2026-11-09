@@ -1,13 +1,12 @@
-﻿import Link from "next/link";
-import { InnerPage } from "@/components/public/InnerPage";
+﻿import { InnerPage } from "@/components/public/InnerPage";
+import { CmsHtml } from "@/components/public/CmsHtml";
+import { getCms } from "@/lib/cms/content";
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const cms = await getCms();
   return (
-    <InnerPage title="League Programs" subtitle="Development for young athletes">
-      <p>P-O Select Elementary League for school-based teams (grades 3–6).</p>
-      <p className="mt-4">
-        <Link href="/central-pa-lions">Central PA Lions AAU / travel program →</Link>
-      </p>
+    <InnerPage title={cms.text("services.title")} subtitle={cms.text("services.subtitle")}>
+      <CmsHtml html={cms.html("services.html")} />
     </InnerPage>
   );
 }

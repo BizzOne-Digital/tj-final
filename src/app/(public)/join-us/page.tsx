@@ -1,18 +1,12 @@
-﻿import Link from "next/link";
-import { InnerPage } from "@/components/public/InnerPage";
+﻿import { InnerPage } from "@/components/public/InnerPage";
+import { CmsHtml } from "@/components/public/CmsHtml";
+import { getCms } from "@/lib/cms/content";
 
-export default function JoinUsPage() {
+export default async function JoinUsPage() {
+  const cms = await getCms();
   return (
-    <InnerPage title="Join Us" subtitle="JOIN THE MOUNTIE FAMILY">
-      <p><strong>ONE TEAM. ONE GOAL. ONE PURPOSE.</strong></p>
-      <p className="mt-4">
-        Choose a program below to learn more and register when registration is open.
-      </p>
-      <ul className="mt-6 space-y-2">
-        <li><Link href="/booking">Get started / registration</Link></li>
-        <li><Link href="/teams">Team directory</Link></li>
-        <li><Link href="/contact">Contact us</Link></li>
-      </ul>
+    <InnerPage title={cms.text("join-us.title")} subtitle={cms.text("join-us.subtitle")}>
+      <CmsHtml html={cms.html("join-us.html")} />
     </InnerPage>
   );
 }

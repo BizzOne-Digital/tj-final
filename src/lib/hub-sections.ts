@@ -157,3 +157,44 @@ export function allStarsBlocks(): HubBlock[] {
     })),
   }));
 }
+
+export function playoffBlocks(): HubBlock[] {
+  return LEAGUE_SEASONS.map((season) => ({
+    id: `playoff-${season}`,
+    title: `${season} Season`,
+    level: 2,
+    children: [
+      { id: `playoff-${season}-4th`, title: "4th Grade Playoff Bracket", level: 4, body: COMING_SOON },
+      { id: `playoff-${season}-6th`, title: "6th Grade Playoff Bracket", level: 4, body: COMING_SOON },
+    ],
+  }));
+}
+
+/** Every block (at any depth) that has editable body text. */
+export function flattenEditableBlocks(blocks: HubBlock[]): HubBlock[] {
+  const out: HubBlock[] = [];
+  const walk = (b: HubBlock) => {
+    if (typeof b.body === "string" && !b.html) out.push(b);
+    b.children?.forEach(walk);
+  };
+  blocks.forEach(walk);
+  return out;
+}
+
+/** Replace default "coming soon" bodies with admin-edited HTML. */
+export function applyBlockOverrides(
+  blocks: HubBlock[],
+  getOverride: (blockId: string) => string | undefined,
+): HubBlock[] {
+  const map = (b: HubBlock): HubBlock => {
+    const next: HubBlock = { ...b };
+    const o = typeof b.body === "string" && !b.html ? getOverride(b.id) : undefined;
+    if (o) {
+      next.body = undefined;
+      next.html = o;
+    }
+    if (b.children) next.children = b.children.map(map);
+    return next;
+  };
+  return blocks.map(map);
+}

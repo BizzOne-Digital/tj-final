@@ -13,6 +13,9 @@ const schoolProgramSchema = new Schema(
     primaryColor: String,
     sortOrder: { type: Number, default: 0 },
     stableKey: { type: String, unique: true, sparse: true },
+    /** When true, `coachBlocks` (edited in the admin portal) replaces the built-in coach list. */
+    coachesManaged: { type: Boolean, default: false },
+    coachBlocks: [{ _id: false, name: String, label: String, email: String }],
   },
   { timestamps: true },
 );

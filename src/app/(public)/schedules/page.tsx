@@ -1,49 +1,46 @@
 ﻿import Link from "next/link";
 import { InnerPage } from "@/components/public/InnerPage";
 import { ScheduleImageGrid } from "@/components/public/ContentImage";
-import { driveAsset, schoolScheduleImages } from "@/lib/drive-assets";
 import { getSchools } from "@/lib/services/league";
-
-const league4 = driveAsset("information.4th-grade-team-schedules");
-const league6 = driveAsset("information.6th-grade-team-schedules");
-const leagueScheduleImages = [league4, league6].filter(Boolean) as string[];
-
-const LEAGUE_SCHEDULE_LABELS = ["4th grade teams", "6th grade teams"] as const;
+import { getCms } from "@/lib/cms/content";
+import { schoolMedia } from "@/lib/cms/school-media";
 
 export default async function SchedulesPage() {
+  const cms = await getCms();
   const schools = await getSchools();
+
+  const leagueSchedules = [
+    { src: cms.image("schedules.poster34"), label: cms.text("schedules.poster34.label") },
+    { src: cms.image("schedules.poster56"), label: cms.text("schedules.poster56.label") },
+  ].filter((p) => p.src);
+
   const schoolsWithSchedules = schools
     .map((s) => ({
       school: s,
-      images: schoolScheduleImages(String(s.slug)),
+      images: schoolMedia(cms, String(s.slug)).schedules,
     }))
     .filter((row) => row.images.length > 0);
 
   return (
-    <InnerPage title="Schedules" subtitle="2026-27 season — league & school schedules">
+    <InnerPage title={cms.text("schedules.title")} subtitle={cms.text("schedules.subtitle")}>
       <div className="space-y-14">
         <section>
-          <h2 className="font-display text-xl uppercase text-ice-white sm:text-2xl">League schedules</h2>
-          <p className="mt-2 max-w-3xl text-sm text-cool-grey sm:text-base">
-            4th and 6th grade team schedules (all schools). Open a school below for coaches and program
-            links.
-          </p>
-          {leagueScheduleImages.length > 0 ? (
+          <h2 className="font-display text-xl uppercase text-ice-white sm:text-2xl">
+            {cms.text("schedules.league.heading")}
+          </h2>
+          <p className="mt-2 max-w-3xl text-sm text-cool-grey sm:text-base">{cms.text("schedules.league.intro")}</p>
+          {leagueSchedules.length > 0 ? (
             <div className="mt-8 grid gap-6 lg:grid-cols-2">
-              {leagueScheduleImages.map((src, i) => (
+              {leagueSchedules.map(({ src, label }) => (
                 <div
                   key={src}
                   className="gradient-card min-w-0 rounded-2xl border border-electric-blue/15 p-4 sm:p-5"
                 >
                   <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-electric-blue sm:text-xs">
-                    {LEAGUE_SCHEDULE_LABELS[i] ?? "League schedule"}
+                    {label}
                   </p>
                   <div className="mt-4">
-                    <ScheduleImageGrid
-                      images={[src]}
-                      altPrefix="League schedule"
-                      posterLayout="page"
-                    />
+                    <ScheduleImageGrid images={[src]} altPrefix="League schedule" posterLayout="page" />
                   </div>
                 </div>
               ))}
@@ -52,10 +49,10 @@ export default async function SchedulesPage() {
         </section>
 
         <section>
-          <h2 className="font-display text-xl uppercase text-ice-white sm:text-2xl">By school</h2>
-          <p className="mt-2 text-sm text-cool-grey">
-            Tap a school name for the full team page — forms, coaches, and more.
-          </p>
+          <h2 className="font-display text-xl uppercase text-ice-white sm:text-2xl">
+            {cms.text("schedules.schools.heading")}
+          </h2>
+          <p className="mt-2 text-sm text-cool-grey">{cms.text("schedules.schools.intro")}</p>
           <ul className="mt-8 grid min-w-0 gap-6 sm:grid-cols-2 xl:grid-cols-2">
             {schoolsWithSchedules.map(({ school, images }) => (
               <li

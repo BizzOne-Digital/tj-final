@@ -1,9 +1,12 @@
 ﻿import { InnerPage } from "@/components/public/InnerPage";
+import { CmsHtml } from "@/components/public/CmsHtml";
+import { getCms } from "@/lib/cms/content";
 
-export default function Page() {
+export default async function PrivacyPage() {
+  const cms = await getCms();
   return (
-    <InnerPage title="Privacy Policy" subtitle="Draft for owner review.">
-      <p>Content is managed in the admin CMS. Connect MongoDB and run npm run seed for full content.</p>
+    <InnerPage title={cms.text("privacy.title")} subtitle={cms.text("privacy.subtitle") || undefined}>
+      <CmsHtml html={cms.html("privacy.html")} />
     </InnerPage>
   );
 }

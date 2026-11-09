@@ -1,17 +1,16 @@
-﻿import Link from "next/link";
-import { InnerPage } from "@/components/public/InnerPage";
+﻿import { InnerPage } from "@/components/public/InnerPage";
 import { HubSections } from "@/components/public/HubSections";
+import { CmsHtml } from "@/components/public/CmsHtml";
 import { allStandingsHubBlocks } from "@/lib/hub-sections";
+import { getCms, hubBlocksFor } from "@/lib/cms/content";
 
-export default function ScoresPage() {
+export default async function ScoresPage() {
+  const cms = await getCms();
   return (
-    <InnerPage title="Scores" subtitle="Weekly scores by grade and season">
-      <p className="mb-6 text-sm text-cool-grey">
-        Week-by-week scores are listed under each season on the{" "}
-        <Link href="/standings" className="text-electric-blue hover:underline">standings page</Link>
-        . Jump to a week below:
-      </p>
-      <HubSections blocks={allStandingsHubBlocks()} />
+    <InnerPage title={cms.text("scores.title")} subtitle={cms.text("scores.subtitle")}>
+      <CmsHtml html={cms.html("scores.intro")} className="mb-6 text-sm" />
+      {/* Weekly scores are edited under Standings & Scores in the admin portal. */}
+      <HubSections blocks={hubBlocksFor(cms, "standings", allStandingsHubBlocks())} />
     </InnerPage>
   );
 }

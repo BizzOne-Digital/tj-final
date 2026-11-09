@@ -5,6 +5,7 @@ import { z } from "zod";
 import { connectMongoose } from "@/lib/db/mongoose";
 import { AdminUser } from "@/models/AdminUser";
 import { isAuthConfigured, isDatabaseConfigured } from "@/lib/env";
+import { checkRateLimit } from "@/lib/rate-limit";
 import type { AdminRole } from "@/types/roles";
 
 const credentialsSchema = z.object({
@@ -34,6 +35,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!parsed.success) return null;
 
         await connectMongoose();
+
+        // Brute-force protection: at most 10 sign-in attempts per email per 15 minutes.
+        const limit = await checkRateLimit(`admin-login:${parsed.data.email.toLowerCase()}`, 10, 15 * 60 * 1000);
+        if (!limit.allowed) return null;
+
         const user = await AdminUser.findOne({
           email: parsed.data.email.toLowerCase(),
           active: true,

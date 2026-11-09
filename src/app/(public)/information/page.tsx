@@ -3,18 +3,15 @@ import { InnerPage } from "@/components/public/InnerPage";
 import { ScheduleImageGrid } from "@/components/public/ContentImage";
 import { getPublishedResources, type JsonDoc } from "@/lib/services/league";
 import { PLAYER_OF_GAME_PROCESS_HTML, TESTIMONIALS_BLURB } from "@/lib/league-copy";
-import { driveAsset } from "@/lib/drive-assets";
+import { getCms } from "@/lib/cms/content";
 import { InformationFormsSection } from "@/components/public/InformationFormsSection";
 import { LeagueDocLinks } from "@/components/public/LeagueDocLinks";
 import { ProseBlock } from "@/components/public/ProseBlock";
 
-const leagueScheduleImages = [
-  driveAsset("information.4th-grade-team-schedules"),
-  driveAsset("information.6th-grade-team-schedules"),
-].filter(Boolean) as string[];
-
 export default async function InformationPage() {
   const resources = await getPublishedResources();
+  const cms = await getCms();
+  const leagueScheduleImages = [cms.image("schedules.poster34"), cms.image("schedules.poster56")].filter(Boolean);
   const grouped = resources.reduce((acc: Record<string, JsonDoc[]>, r) => {
     const cat = String(r.category ?? "forms");
     acc[cat] = acc[cat] ?? [];
@@ -23,16 +20,16 @@ export default async function InformationPage() {
   }, {} as Record<string, JsonDoc[]>);
 
   return (
-    <InnerPage title="Information Hub" subtitle="Forms, documents, and league resources">
+    <InnerPage title={cms.text("information.title")} subtitle={cms.text("information.subtitle")}>
       <section className="mb-12">
-        <h2 className="font-display text-xl uppercase text-ice-white">Basic information</h2>
+        <h2 className="font-display text-xl uppercase text-ice-white">{cms.text("information.basic.heading")}</h2>
         <p className="mt-2 text-cool-grey">
-          Yearly forms must be completed before the first game. Use the links below or your school team page.
+          {cms.text("information.basic.intro")}
         </p>
         {leagueScheduleImages.length > 0 ? (
           <div className="mt-6 min-w-0">
             <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-electric-blue/80">
-              League schedule reference
+              {cms.text("information.schedule.label")}
             </p>
             <ScheduleImageGrid
               images={leagueScheduleImages}

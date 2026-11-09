@@ -1,22 +1,48 @@
 ﻿import { InnerPage } from "@/components/public/InnerPage";
 import { AboutPageContent } from "@/components/public/AboutPageContent";
 import { getSiteSettings } from "@/lib/services/site-settings";
-
-const MOUNTIES_ABOUT_COPY = `
-<p>Mounties Youth Basketball is here to put in the hard work, on and off the court and in the classroom; learn; work on our game; encourage our teammates; and to have fun! We live by our motto of <strong>Attitude &amp; Effort</strong>.</p>
-<p>At the end of the day, we're <strong>FAMILY</strong> as we believe in supporting one another wholeheartedly. We're excited to have you and explore all that we have to offer for youth basketball in Central PA.</p>
-<p>Our league is an <strong>official state qualifier league</strong> for the Pennsylvania Middle School Basketball Championship. We are looking for teams to join our P-O Select League.</p>
-<p>Questions? Email <a href="mailto:mountiesyouthbasketball@gmail.com">mountiesyouthbasketball@gmail.com</a></p>
-`;
+import { getCms, htmlWithFallback } from "@/lib/cms/content";
 
 export default async function AboutPage() {
   const settings = await getSiteSettings();
-  const aboutHtml = settings.league?.aboutHtml?.trim() ? settings.league.aboutHtml : MOUNTIES_ABOUT_COPY;
-  const philosophyHtml = settings.league?.mountiesPhilosophyHtml?.trim() ?? "";
+  const cms = await getCms();
+  const aboutHtml = htmlWithFallback(cms, "about.story.html", settings.league?.aboutHtml);
+  const philosophyHtml = htmlWithFallback(
+    cms,
+    "about.philosophy.html",
+    settings.league?.mountiesPhilosophyHtml,
+  ).trim();
 
   return (
-    <InnerPage title="About Us" subtitle={settings.headlines?.secondary ?? "ONE TEAM. ONE GOAL. ONE PURPOSE."}>
-      <AboutPageContent aboutHtml={aboutHtml} philosophyHtml={philosophyHtml} />
+    <InnerPage
+      title={cms.text("about.title")}
+      subtitle={cms.text("about.subtitle") || settings.headlines?.secondary || "ONE TEAM. ONE GOAL. ONE PURPOSE."}
+    >
+      <AboutPageContent
+        aboutHtml={aboutHtml}
+        philosophyHtml={philosophyHtml}
+        content={{
+          image: cms.image("about.image"),
+          kicker: cms.text("about.kicker"),
+          heading: cms.text("about.heading"),
+          intro: cms.text("about.intro"),
+          badges: [cms.text("about.badge1"), cms.text("about.badge2"), cms.text("about.badge3")],
+          storyLabel: cms.text("about.story.label"),
+          philosophyHeading: cms.text("about.philosophy.heading"),
+          philosophyIntro: cms.text("about.philosophy.intro"),
+          pillars: [1, 2, 3].map((n) => ({
+            title: cms.text(`about.pillar${n}.title`),
+            description: cms.text(`about.pillar${n}.text`),
+          })),
+          momentsLabel: cms.text("about.moments.label"),
+          momentsHeading: cms.text("about.moments.heading"),
+          momentsImages: [
+            cms.image("about.moments.image1"),
+            cms.image("about.moments.image2"),
+            cms.image("about.moments.image3"),
+          ],
+        }}
+      />
     </InnerPage>
   );
 }

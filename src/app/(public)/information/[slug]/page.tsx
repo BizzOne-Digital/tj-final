@@ -8,17 +8,14 @@ import { InnerPage } from "@/components/public/InnerPage";
 import { ScheduleImageGrid } from "@/components/public/ContentImage";
 import { formExternalUrl, WEEKLY_FORM_LABELS, YEARLY_FORM_LABELS } from "@/lib/league-forms";
 import { leagueDocUrl } from "@/lib/league-docs";
-import { driveAsset } from "@/lib/drive-assets";
+import { getCms } from "@/lib/cms/content";
 import { LeagueDocumentEmbed } from "@/components/public/LeagueDocumentEmbed";
 import fs from "fs";
 import path from "path";
 
-const ROSTER_SCHEDULE_IMAGES = [
-  driveAsset("information.4th-grade-team-schedules"),
-  driveAsset("information.6th-grade-team-schedules"),
-].filter(Boolean) as string[];
-
-function RosterScheduleBlock() {
+async function RosterScheduleBlock() {
+  const cms = await getCms();
+  const ROSTER_SCHEDULE_IMAGES = [cms.image("schedules.poster34"), cms.image("schedules.poster56")].filter(Boolean);
   if (!ROSTER_SCHEDULE_IMAGES.length) return null;
   return (
     <section className="mt-8 max-w-4xl">

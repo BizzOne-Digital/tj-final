@@ -1,12 +1,14 @@
 ﻿import { InnerPage } from "@/components/public/InnerPage";
 import { getFaqs } from "@/lib/services/league";
+import { getCms } from "@/lib/cms/content";
 
 export default async function FaqPage() {
   const faqs = await getFaqs();
+  const cms = await getCms();
   return (
-    <InnerPage title="FAQ" subtitle="Frequently asked questions">
+    <InnerPage title={cms.text("faq-page.title")} subtitle={cms.text("faq-page.subtitle")}>
       {faqs.length === 0 ? (
-        <p>Run <code>npm run seed</code> after connecting MongoDB for FAQ content.</p>
+        <p>Questions and answers will be posted here soon.</p>
       ) : (
         <div className="space-y-4">
           {faqs.map((f) => (

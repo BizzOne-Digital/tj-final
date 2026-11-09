@@ -1,6 +1,8 @@
 ﻿import Link from "next/link";
 import { InnerPage } from "@/components/public/InnerPage";
 import { getPublishedPosts } from "@/lib/services/league";
+import { getCms } from "@/lib/cms/content";
+import { ContentImage } from "@/components/public/ContentImage";
 
 function formatNewsDate(value: unknown): string {
   if (!value) return "";
@@ -16,9 +18,10 @@ function formatNewsDate(value: unknown): string {
 
 export default async function BlogsPage() {
   const posts = await getPublishedPosts();
+  const cms = await getCms();
 
   return (
-    <InnerPage title="News" subtitle="Latest updates from the P-O Select League">
+    <InnerPage title={cms.text("blogs.title")} subtitle={cms.text("blogs.subtitle")}>
       {posts.length === 0 ? (
         <p className="text-cool-grey">
           New announcements will be posted here as the season approaches. Check{" "}
@@ -32,6 +35,16 @@ export default async function BlogsPage() {
           {posts.map((p) => (
             <li key={String(p.slug)}>
               <article className="gradient-card gradient-card-hover flex h-full flex-col rounded-2xl border border-white/10 p-6">
+                {(p.coverImage as { url?: string } | undefined)?.url ? (
+                  <div className="mb-4">
+                    <ContentImage
+                      src={String((p.coverImage as { url?: string }).url)}
+                      alt={String(p.title)}
+                      size="tile"
+                      frameClassName="!mx-0 w-full max-w-none"
+                    />
+                  </div>
+                ) : null}
                 <time className="text-xs font-semibold uppercase tracking-wider text-electric-blue">
                   {formatNewsDate(p.publishedAt)}
                 </time>

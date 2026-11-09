@@ -1,11 +1,12 @@
 ﻿import { InnerPage } from "@/components/public/InnerPage";
+import { CmsHtml } from "@/components/public/CmsHtml";
+import { getCms } from "@/lib/cms/content";
 
-export default function RecordBookPage() {
+export default async function RecordBookPage() {
+  const cms = await getCms();
   return (
-    <InnerPage title="Record Book" subtitle="Team, individual, and coaching records">
-      {["2026-27", "2027-28", "2028-29", "2029-30"].map((s) => (
-        <p key={s} className="mt-2">{s} — more information coming soon.</p>
-      ))}
+    <InnerPage title={cms.text("record-book.title")} subtitle={cms.text("record-book.subtitle")}>
+      <CmsHtml html={cms.html("record-book.html")} />
     </InnerPage>
   );
 }

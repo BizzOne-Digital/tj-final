@@ -5,13 +5,14 @@ import {
   TESTIMONIALS_BLURB,
 } from "@/lib/league-copy";
 import { TeamFormLinks } from "@/components/public/TeamFormLinks";
-import { schoolScheduleImages, schoolTeamImage } from "@/lib/drive-assets";
+import { getCms } from "@/lib/cms/content";
+import { schoolMedia } from "@/lib/cms/school-media";
 import { contactCoachLinesFromConfig } from "@/lib/school-coaches";
 import type { JsonDoc } from "@/lib/services/league";
 
 const WEEKLY_PLACEHOLDERS = ["Week #1", "Week #2", "Week #3", "Week #4", "Week #5"];
 
-export function SchoolTeamSections({
+export async function SchoolTeamSections({
   school,
   seasonSlug,
   schoolTeams,
@@ -23,10 +24,18 @@ export function SchoolTeamSections({
   resources: JsonDoc[];
 }) {
   const slug = String(school.slug);
-  const teamImg = schoolTeamImage(slug);
-  const schedules = schoolScheduleImages(slug);
+  const media = schoolMedia(await getCms(), slug);
+  const teamImg = media.team;
+  const schedules = media.schedules;
 
-  const configuredCoaches = contactCoachLinesFromConfig(slug);
+  const managedCoaches = school.coachesManaged
+    ? ((school.coachBlocks as { name?: string; label?: string; email?: string }[] | undefined) ?? []).map((c) => ({
+        name: c.name ?? "Coach",
+        division: c.label?.trim() ?? "",
+        email: c.email?.trim() ?? "",
+      }))
+    : null;
+  const configuredCoaches = managedCoaches ?? contactCoachLinesFromConfig(slug);
   const coachLines =
     configuredCoaches ??
     schoolTeams.flatMap((t) => {

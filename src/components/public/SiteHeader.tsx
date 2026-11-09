@@ -10,10 +10,14 @@ import { LEAGUE_MENU, PRIMARY_NAV } from "@/lib/site-navigation";
 export function SiteHeader({
   emblemUrl,
   overlay = false,
+  topbar = "2026-27 Season • School-Based Teams • Grades 3-6",
+  registerLabel = "Register Team",
 }: {
   emblemUrl?: string;
   shortName?: string;
   overlay?: boolean;
+  topbar?: string;
+  registerLabel?: string;
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -34,7 +38,7 @@ export function SiteHeader({
       }
     >
       <div className="border-b border-white/10 bg-[#020a18]/80 px-2 py-2 text-center text-[9px] font-medium uppercase tracking-[0.12em] text-white/75 sm:text-[11px] sm:tracking-[0.28em]">
-        2026-27 Season • School-Based Teams • Grades 3-6
+        {topbar}
       </div>
 
       <div className="bg-[#020a18]/55 backdrop-blur-md">
@@ -124,7 +128,7 @@ export function SiteHeader({
               href="/booking"
               className="hidden items-center gap-1.5 rounded-full bg-gradient-to-r from-[#2b8cff] to-[#5eb5ff] px-4 py-2.5 text-xs font-bold uppercase tracking-wide text-white shadow-[0_0_28px_rgba(46,140,255,0.45)] sm:inline-flex sm:text-sm"
             >
-              Register Team
+              {registerLabel}
               <ArrowRight className="h-4 w-4" />
             </Link>
             <button

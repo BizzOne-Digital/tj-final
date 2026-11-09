@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getSiteSettings } from "@/lib/services/site-settings";
+import { getCms, htmlWithFallback } from "@/lib/cms/content";
 import {
   getSchools,
   getNextLeagueEvent,
@@ -18,21 +19,11 @@ import { Trophy, Calendar } from "lucide-react";
 import { SchoolDirectoryCard } from "@/components/public/SchoolDirectoryCard";
 import { HomeProgramBlock } from "@/components/public/HomeProgramBlock";
 import { ContentImage } from "@/components/public/ContentImage";
-import {
-  LEAGUE_INFORMATION_HTML,
-  HOME_HASHTAGS,
-} from "@/lib/league-copy";
-import {
-  MAIN_ABOUT_PICTURE,
-  MAIN_PROGRAM_PICTURE,
-  GOLDEN_TICKET_PICTURE,
-  DIVISION_POSTER_GRADES_34,
-  DIVISION_POSTER_GRADES_56,
-  divisionPosterImage,
-} from "@/lib/drive-assets";
+import { HOME_HASHTAGS } from "@/lib/league-copy";
 
 export default async function HomePage() {
   const settings = await getSiteSettings();
+  const cms = await getCms();
   const schools = await getSchools();
   const nextEvent = await getNextLeagueEvent();
   const divisions = await getDivisionsForSeason(
@@ -46,17 +37,50 @@ export default async function HomePage() {
 
   const posterUrl =
     settings.brand?.seasonPoster?.url ?? "/brand/season-poster-2026-27.jpg";
-  const leagueInfoPoster = MAIN_PROGRAM_PICTURE;
+  const leagueInfoPoster = cms.image("home.info.poster");
+  const poster34 = cms.image("home.divisions.poster34");
+  const poster56 = cms.image("home.divisions.poster56");
+  const posterForDivision = (d: JsonDoc) => {
+    const blob = `${d.displayName ?? ""} ${d.key ?? ""} ${d.slug ?? ""}`.toLowerCase();
+    if (blob.includes("5-6") || blob.includes("5/6")) return poster56;
+    if (blob.includes("3-4") || blob.includes("3/4")) return poster34;
+    return undefined;
+  };
   return (
     <div className="w-full min-w-0 overflow-x-clip">
       <HomeHero
+        text={{
+          eyebrow: cms.text("home.hero.eyebrow"),
+          line1: cms.text("home.hero.line1"),
+          line2: cms.text("home.hero.line2"),
+          line3: cms.text("home.hero.line3"),
+          cta1: cms.text("home.hero.cta1"),
+          cta2: cms.text("home.hero.cta2"),
+          badgeYear: cms.text("home.hero.badgeYear"),
+          badgeLabel: cms.text("home.hero.badgeLabel"),
+          badgeGold: cms.text("home.hero.badgeGold"),
+          stat1: cms.text("home.hero.stat1"),
+          bg: cms.image("home.hero.bg"),
+        }}
         emblemUrl={settings.brand?.emblem?.url ?? posterUrl}
         supporting={settings.headlines?.supporting}
         firstTeamCents={settings.league?.firstTeamFeeCents ?? 20000}
         capacity={settings.league?.teamsPerDivisionCapacity ?? 8}
       />
 
-      <HomeProgramBlock />
+      <HomeProgramBlock
+        text={{
+          kicker: cms.text("home.program.kicker"),
+          eyebrow: cms.text("home.program.eyebrow"),
+          title: cms.text("home.program.title"),
+          subtitle: cms.text("home.program.subtitle"),
+          tagline: cms.text("home.program.tagline"),
+          quote: cms.text("home.program.quote"),
+          supporting: cms.text("home.program.supporting"),
+          hashtags: cms.text("home.program.hashtags"),
+          image: cms.image("home.program.image"),
+        }}
+      />
 
       {nextEvent && (
         <section className="gradient-section border-y border-electric-blue/20">
@@ -101,21 +125,21 @@ export default async function HomePage() {
         <div className="grid min-w-0 gap-10 lg:grid-cols-2 lg:items-start">
           <Reveal from="left" className="flex min-h-0 min-w-0 flex-col">
             <h2 className="font-display text-3xl font-bold uppercase italic">
-              <span className="gradient-text-cyan">About Us</span>
+              <span className="gradient-text-cyan">{cms.text("home.about.heading")}</span>
             </h2>
             <div
               className="mt-4 space-y-4 text-cool-grey"
               dangerouslySetInnerHTML={{
-                __html: settings.league?.aboutHtml ?? "",
+                __html: htmlWithFallback(cms, "home.about.html", settings.league?.aboutHtml),
               }}
             />
             <Link href="/about" className="mt-6 inline-block text-electric-blue">
-              Read more →
+              {cms.text("home.about.link")}
             </Link>
           </Reveal>
           <Reveal from="right" className="min-w-0 w-full">
             <ContentImage
-              src={MAIN_ABOUT_PICTURE}
+              src={cms.image("home.about.image")}
               alt="P-O Select League — 2026-27 season state championship invite poster"
               size="landscapePoster"
               frameClassName="!mx-0 mx-auto w-full max-w-[17rem] sm:max-w-xs md:max-w-sm lg:max-w-md"
@@ -128,14 +152,14 @@ export default async function HomePage() {
         <div className="mx-auto max-w-7xl px-4 lg:px-6">
           <Reveal>
             <h2 className="font-display text-3xl font-bold uppercase italic">
-              <span className="gradient-text-cyan">League Information</span>
+              <span className="gradient-text-cyan">{cms.text("home.info.heading")}</span>
             </h2>
           </Reveal>
           <div className="mt-8 grid min-w-0 gap-10 lg:grid-cols-2 lg:items-start">
             <div
               className="prose prose-invert max-w-none min-w-0 text-cool-grey"
               dangerouslySetInnerHTML={{
-                __html: LEAGUE_INFORMATION_HTML,
+                __html: cms.html("home.info.html"),
               }}
             />
             <Reveal from="right" className="min-w-0 lg:sticky lg:top-24">
@@ -149,7 +173,7 @@ export default async function HomePage() {
             </Reveal>
           </div>
           <Link href="/league-information" className="mt-8 inline-block text-electric-blue">
-            Full league information →
+            {cms.text("home.info.link")}
           </Link>
         </div>
       </section>
@@ -158,7 +182,7 @@ export default async function HomePage() {
         <div className="mx-auto max-w-7xl px-4 lg:px-6">
           <Reveal>
             <h2 className="font-display text-3xl font-bold uppercase italic">
-              <span className="gradient-text-cyan">Divisions</span>
+              <span className="gradient-text-cyan">{cms.text("home.divisions.heading")}</span>
             </h2>
           </Reveal>
           <div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -169,7 +193,7 @@ export default async function HomePage() {
                       title={String(d.displayName)}
                       meta={`${String(d.leagueDayWeekday)}s · ${String(d.leagueDayStartTime)} ET`}
                       capacity={settings.league?.teamsPerDivisionCapacity}
-                      posterSrc={divisionPosterImage(d)}
+                      posterSrc={posterForDivision(d)}
                       posterAlt={`${String(d.displayName)} division poster`}
                     />
                   </Reveal>
@@ -180,14 +204,14 @@ export default async function HomePage() {
                     title="Grades 5-6"
                     meta="Saturdays · 8:00 AM ET"
                     capacity={settings.league?.teamsPerDivisionCapacity}
-                    posterSrc={DIVISION_POSTER_GRADES_56}
+                    posterSrc={poster56}
                     posterAlt="2026-27 P-O Select 5/6th grade league poster"
                   />
                   <DivisionCard
                     title="Grades 3-4"
                     meta="Sundays · 9:00 AM ET"
                     capacity={settings.league?.teamsPerDivisionCapacity}
-                    posterSrc={DIVISION_POSTER_GRADES_34}
+                    posterSrc={poster34}
                     posterAlt="2026-27 P-O Select 3/4th grade league poster"
                   />
                 </>
@@ -199,10 +223,10 @@ export default async function HomePage() {
       <section className="gradient-section mx-auto max-w-7xl rounded-none px-4 py-20 lg:px-6">
         <Reveal>
           <h2 className="font-display text-3xl font-bold uppercase italic">
-              <span className="gradient-text-cyan">Team Directory</span>
+              <span className="gradient-text-cyan">{cms.text("home.directory.heading")}</span>
             </h2>
             <p className="mt-3 text-sm text-cool-grey">
-              LHAC &amp; ICC programs — tap a school for coaches, forms, and schedules.
+              {cms.text("home.directory.intro")}
             </p>
         </Reveal>
         <ul className="mt-10 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3">
@@ -216,7 +240,7 @@ export default async function HomePage() {
 
       <section className="gradient-section-alt border-y border-electric-blue/15 py-16">
         <div className="mx-auto max-w-7xl px-4 lg:px-6">
-          <h2 className="font-display text-2xl font-bold uppercase">Schedules & Results</h2>
+          <h2 className="font-display text-2xl font-bold uppercase">{cms.text("home.results.heading")}</h2>
           {games.length === 0 ? (
             <p className="mt-4 text-cool-grey">
               Game fixtures and scores will appear here once published. League days are on the{" "}
@@ -237,21 +261,21 @@ export default async function HomePage() {
               <div className="flex min-w-0 flex-col justify-center text-center lg:text-left">
                 <Trophy className="mx-auto h-12 w-12 text-gold lg:mx-0" />
                 <h2 className="mt-4 font-display text-3xl font-bold uppercase text-gold">
-                  Golden Ticket — State Championship Invite
+                  {cms.text("home.golden.heading")}
                 </h2>
                 <p className="mt-4 text-cool-grey">
-                  Champion & runner-up in both divisions earn invites to State College, PA.
+                  {cms.text("home.golden.text")}
                 </p>
                 <Link
                   href="/state-championship"
                   className="mt-8 inline-block rounded-full border border-gold/40 px-6 py-2 text-sm font-semibold text-gold hover:bg-gold/10 lg:self-start"
                 >
-                  Golden Ticket details
+                  {cms.text("home.golden.button")}
                 </Link>
               </div>
               <div className="min-w-0 w-full lg:ml-auto lg:max-w-xl">
                 <ContentImage
-                  src={GOLDEN_TICKET_PICTURE}
+                  src={cms.image("home.golden.image")}
                   alt="Golden Ticket — state championship invite league"
                   size="wide"
                   frameClassName="!mx-0 w-full max-w-none"
@@ -265,8 +289,8 @@ export default async function HomePage() {
       <section className="mx-auto max-w-7xl px-4 py-16 lg:px-6">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h2 className="font-display text-2xl font-bold uppercase">News</h2>
-            <p className="mt-2 text-sm uppercase tracking-wider text-electric-blue">Latest updates</p>
+            <h2 className="font-display text-2xl font-bold uppercase">{cms.text("home.news.heading")}</h2>
+            <p className="mt-2 text-sm uppercase tracking-wider text-electric-blue">{cms.text("home.news.kicker")}</p>
           </div>
           {posts.length > 0 ? (
             <Link href="/blogs" className="text-sm font-semibold text-electric-blue hover:underline">
@@ -305,27 +329,27 @@ export default async function HomePage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-16 lg:px-6">
-        <h2 className="font-display text-2xl font-bold uppercase">Registration</h2>
+        <h2 className="font-display text-2xl font-bold uppercase">{cms.text("home.registration.heading")}</h2>
         <div className="mt-8 grid gap-6 md:grid-cols-2">
           <div className="gradient-card rounded-2xl p-8">
             <p className="text-4xl font-bold text-ice-white">
               {formatUsdFromCents(settings.league?.firstTeamFeeCents ?? 20000)}
             </p>
-            <p className="text-cool-grey">First team</p>
+            <p className="text-cool-grey">{cms.text("home.registration.firstLabel")}</p>
           </div>
           <div className="gradient-card gradient-card-hover rounded-2xl p-8">
             <p className="text-4xl font-bold text-ice-white">
               {formatUsdFromCents(settings.league?.additionalTeamFeeCents ?? 15000)}
             </p>
-            <p className="text-cool-grey">Each additional team</p>
+            <p className="text-cool-grey">{cms.text("home.registration.addLabel")}</p>
           </div>
         </div>
-        <MagneticButton href="/booking">Start registration</MagneticButton>
+        <MagneticButton href="/booking">{cms.text("home.registration.button")}</MagneticButton>
       </section>
 
       <section className="gradient-section py-16">
         <div className="mx-auto max-w-7xl px-4 lg:px-6">
-          <h2 className="font-display text-2xl font-bold uppercase">Required Forms</h2>
+          <h2 className="font-display text-2xl font-bold uppercase">{cms.text("home.forms.heading")}</h2>
           <ul className="mt-6 grid gap-3 md:grid-cols-2">
             {resources.slice(0, 6).map((r: JsonDoc) => (
               <li key={String(r.slug)}>
@@ -352,12 +376,12 @@ export default async function HomePage() {
       <section className="gradient-hero grain relative overflow-hidden py-20 text-center">
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-electric-blue/25 via-transparent to-royal-blue/20" aria-hidden />
         <h2 className="relative font-display text-4xl font-bold uppercase italic">
-          <span className="gradient-text-cyan">Join the Mountie Family</span>
+          <span className="gradient-text-cyan">{cms.text("home.cta.heading")}</span>
         </h2>
         <p className="relative mt-3 text-cool-grey">{settings.headlines?.secondary ?? HOME_HASHTAGS}</p>
         <div className="relative mt-8 flex justify-center gap-4">
-          <MagneticButton href="/join-us">Join Us</MagneticButton>
-          <MagneticButton href="/support" variant="ghost">Support</MagneticButton>
+          <MagneticButton href="/join-us">{cms.text("home.cta.join")}</MagneticButton>
+          <MagneticButton href="/support" variant="ghost">{cms.text("home.cta.support")}</MagneticButton>
         </div>
       </section>
     </div>

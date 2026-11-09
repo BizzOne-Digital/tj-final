@@ -26,15 +26,18 @@ export type ContactSettings = {
   facebookUrl?: string;
 };
 
-export function ContactInfoPanel({ contact }: { contact: ContactSettings }) {
+export function ContactInfoPanel({
+  contact,
+  intro = "Reach league leadership for registration, schedules, volunteering, or general questions. We typically respond within a few business days.",
+}: {
+  contact: ContactSettings;
+  intro?: string;
+}) {
   const phoneDigits = contact.primaryPhone.replace(/\D/g, "");
 
   return (
     <div className="space-y-4">
-      <p className="text-sm leading-relaxed text-cool-grey">
-        Reach league leadership for registration, schedules, volunteering, or general questions. We
-        typically respond within a few business days.
-      </p>
+      <p className="text-sm leading-relaxed text-cool-grey">{intro}</p>
 
       <div className="rounded-2xl border border-electric-blue/20 bg-gradient-to-br from-electric-blue/10 to-transparent p-5">
         <p className="text-xs font-semibold uppercase tracking-wider text-electric-blue">League contact</p>

@@ -2,6 +2,13 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    // Admin uploads are served from MongoDB via /api/uploads/** (serverless-safe).
+    localPatterns: [
+      { pathname: "/api/uploads/**" },
+      { pathname: "/league-assets/**" },
+      { pathname: "/brand/**" },
+      { pathname: "/**" },
+    ],
     remotePatterns: [
       {
         protocol: "https",

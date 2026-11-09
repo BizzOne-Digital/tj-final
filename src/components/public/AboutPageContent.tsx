@@ -5,36 +5,32 @@ import { Award, ArrowRight, Camera, HeartHandshake, Sparkles, Users } from "luci
 import { Reveal } from "@/components/motion/Reveal";
 import { ContentImage } from "@/components/public/ContentImage";
 import { ProseBlock } from "@/components/public/ProseBlock";
-import {
-  MAIN_ABOUT_PICTURE,
-  MAIN_PROGRAM_PICTURE,
-} from "@/lib/drive-assets";
-import { MAIN_HEADING_GALLERY } from "@/lib/page-drive-images";
 
-const PILLARS = [
-  {
-    title: "Attitude",
-    description: "Show up ready to learn — on the court and in the classroom.",
-    icon: Sparkles,
-  },
-  {
-    title: "Effort",
-    description: "Hustle plays, reps, and respect for coaches and teammates.",
-    icon: HeartHandshake,
-  },
-  {
-    title: "Family",
-    description: "We support one another — that's the Mountie way.",
-    icon: Users,
-  },
-] as const;
+const PILLAR_ICONS = [Sparkles, HeartHandshake, Users] as const;
+
+export type AboutContent = {
+  image: string;
+  kicker: string;
+  heading: string;
+  intro: string;
+  badges: [string, string, string];
+  storyLabel: string;
+  philosophyHeading: string;
+  philosophyIntro: string;
+  pillars: { title: string; description: string }[];
+  momentsLabel: string;
+  momentsHeading: string;
+  momentsImages: [string, string, string];
+};
 
 export function AboutPageContent({
   aboutHtml,
   philosophyHtml,
+  content: c,
 }: {
   aboutHtml: string;
   philosophyHtml: string;
+  content: AboutContent;
 }) {
   return (
     <div className="space-y-14 sm:space-y-16 md:space-y-20">
@@ -42,7 +38,7 @@ export function AboutPageContent({
         <Reveal from="left" className="min-w-0 lg:col-span-5">
           <div className="gradient-card overflow-hidden rounded-2xl p-2 ring-1 ring-electric-blue/25">
             <ContentImage
-              src={MAIN_ABOUT_PICTURE}
+              src={c.image}
               alt="P-O Select League — 2026-27 season state championship invite poster"
               size="landscapePoster"
               priority
@@ -52,32 +48,31 @@ export function AboutPageContent({
         </Reveal>
         <Reveal from="right" delay={0.08} className="min-w-0 lg:col-span-7">
           <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-electric-blue sm:text-xs">
-            Mounties Youth Basketball
+            {c.kicker}
           </p>
           <h2 className="mt-3 font-display text-2xl font-bold uppercase italic leading-tight sm:text-3xl md:text-4xl">
-            <span className="gradient-text-cyan">Attitude &amp; Effort</span>
+            <span className="gradient-text-cyan">{c.heading}</span>
           </h2>
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-cool-grey sm:text-base">
-            Hard work on and off the court. Encouraging teammates. Having fun while we grow the game in Central
-            PA — and building a path to the state championship stage.
+            {c.intro}
           </p>
           <ul className="mt-8 grid gap-3 sm:grid-cols-3">
             <li className="rounded-xl border border-electric-blue/20 bg-electric-blue/5 px-4 py-3 text-center">
               <Award className="mx-auto h-5 w-5 text-gold" aria-hidden />
               <p className="mt-2 text-[10px] font-semibold uppercase tracking-wider text-ice-white sm:text-xs">
-                State qualifier
+                {c.badges[0]}
               </p>
             </li>
             <li className="rounded-xl border border-electric-blue/20 bg-electric-blue/5 px-4 py-3 text-center">
               <Users className="mx-auto h-5 w-5 text-electric-blue" aria-hidden />
               <p className="mt-2 text-[10px] font-semibold uppercase tracking-wider text-ice-white sm:text-xs">
-                School teams
+                {c.badges[1]}
               </p>
             </li>
             <li className="rounded-xl border border-gold/30 bg-gold/5 px-4 py-3 text-center">
               <HeartHandshake className="mx-auto h-5 w-5 text-gold" aria-hidden />
               <p className="mt-2 text-[10px] font-semibold uppercase tracking-wider text-ice-white sm:text-xs">
-                Mountie family
+                {c.badges[2]}
               </p>
             </li>
           </ul>
@@ -90,7 +85,7 @@ export function AboutPageContent({
             className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-electric-blue/10 blur-3xl"
             aria-hidden
           />
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-electric-blue">Our story</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-electric-blue">{c.storyLabel}</p>
           <ProseBlock html={aboutHtml} className="mt-5 max-w-none sm:[&_p]:text-lg" />
         </div>
       </Reveal>
@@ -98,10 +93,10 @@ export function AboutPageContent({
       <section>
         <Reveal>
           <h2 className="font-display text-2xl font-bold uppercase sm:text-3xl">
-            <span className="gradient-text-cyan">Mounties philosophy</span>
+            <span className="gradient-text-cyan">{c.philosophyHeading}</span>
           </h2>
           <p className="mt-2 max-w-2xl text-sm text-cool-grey">
-            What we expect from every player, coach, and family in the league.
+            {c.philosophyIntro}
           </p>
         </Reveal>
         {philosophyHtml ? (
@@ -112,7 +107,9 @@ export function AboutPageContent({
           </Reveal>
         ) : (
           <ul className="mt-8 grid gap-4 sm:grid-cols-3">
-            {PILLARS.map(({ title, description, icon: Icon }, i) => (
+            {c.pillars.map(({ title, description }, i) => {
+              const Icon = PILLAR_ICONS[i % PILLAR_ICONS.length];
+              return (
               <Reveal key={title} delay={i * 0.06}>
                 <li className="gradient-card gradient-card-hover h-full rounded-2xl p-6">
                   <span className="inline-flex rounded-lg bg-electric-blue/15 p-2.5 text-electric-blue">
@@ -122,7 +119,8 @@ export function AboutPageContent({
                   <p className="mt-2 text-sm leading-relaxed text-cool-grey">{description}</p>
                 </li>
               </Reveal>
-            ))}
+              );
+            })}
           </ul>
         )}
       </section>
@@ -131,9 +129,9 @@ export function AboutPageContent({
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-electric-blue">On the court</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-electric-blue">{c.momentsLabel}</p>
               <h2 className="mt-1 font-display text-xl font-bold uppercase text-ice-white sm:text-2xl">
-                League moments
+                {c.momentsHeading}
               </h2>
             </div>
             <Camera className="h-7 w-7 shrink-0 text-electric-blue/35" aria-hidden />
@@ -142,7 +140,7 @@ export function AboutPageContent({
         <div className="mt-6 grid min-w-0 gap-4 lg:grid-cols-5 lg:gap-4">
           <Reveal className="min-w-0 lg:col-span-3">
             <ContentImage
-              src={MAIN_ABOUT_PICTURE}
+              src={c.momentsImages[0]}
               alt="P-O Select League — season poster"
               size="landscapePoster"
               frameClassName="!mx-0 w-full max-w-none"
@@ -151,7 +149,7 @@ export function AboutPageContent({
           <div className="flex min-w-0 flex-col gap-4 lg:col-span-2">
             <Reveal delay={0.05} className="min-w-0 w-full">
               <ContentImage
-                src={MAIN_PROGRAM_PICTURE}
+                src={c.momentsImages[1]}
                 alt="P-O Select winter league program — When LHAC meets ICC"
                 size="programPoster"
                 frameClassName="!mx-0 w-full max-w-none"
@@ -159,7 +157,7 @@ export function AboutPageContent({
             </Reveal>
             <Reveal delay={0.1} className="min-w-0 w-full">
               <ContentImage
-                src={MAIN_HEADING_GALLERY}
+                src={c.momentsImages[2]}
                 alt="USA Basketball youth development certified"
                 size="certBadge"
                 frameClassName="!mx-0 w-full max-w-none"

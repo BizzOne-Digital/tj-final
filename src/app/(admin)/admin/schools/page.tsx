@@ -1,22 +1,29 @@
-import { connectMongoose } from "@/lib/db/mongoose";
-import { SchoolProgram } from "@/models/SchoolProgram";
-import { isDatabaseConfigured } from "@/lib/env";
+import Link from "next/link";
+import { getSchools } from "@/lib/services/league";
+
+export const dynamic = "force-dynamic";
 
 export default async function AdminSchoolsPage() {
-  if (!isDatabaseConfigured()) return <p>Database required.</p>;
-  await connectMongoose();
-  const schools = await SchoolProgram.find().sort({ name: 1 }).lean();
+  const schools = await getSchools();
   return (
-    <div>
-      <h1 className="text-2xl font-bold">Schools</h1>
+    <div className="max-w-3xl">
+      <h1 className="text-2xl font-bold">Schools &amp; Coaches</h1>
+      <p className="mt-2 text-sm text-slate-600">
+        Update each school&apos;s coaches, program link, team photo and schedule posters.
+      </p>
       <ul className="mt-6 space-y-2">
         {schools.map((s) => (
-          <li key={String(s._id)} className="rounded border bg-white p-3">
-            {s.name} — <code>{s.slug}</code>
+          <li key={String(s.slug)}>
+            <Link
+              href={`/admin/schools/${s.slug}`}
+              className="flex items-center justify-between rounded-lg border border-slate-200 bg-white p-4 shadow-sm hover:border-blue-300"
+            >
+              <span className="font-medium">{String(s.name)}</span>
+              <span className="text-sm text-blue-700">Edit →</span>
+            </Link>
           </li>
         ))}
       </ul>
-      <p className="mt-4 text-sm text-slate-500">Extended editing: program links and logos via upcoming media fields.</p>
     </div>
   );
 }

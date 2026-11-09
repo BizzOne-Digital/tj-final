@@ -1,4 +1,5 @@
 import { getSiteSettings } from "@/lib/services/site-settings";
+import { getCms } from "@/lib/cms/content";
 import { SiteHeader } from "@/components/public/SiteHeader";
 import { SiteFooter } from "@/components/public/SiteFooter";
 import { MotionPreferencesProvider, ReduceMotionToggle } from "@/components/motion/MotionPreferences";
@@ -9,6 +10,7 @@ export default async function PublicLayout({
   children: React.ReactNode;
 }) {
   const settings = await getSiteSettings();
+  const cms = await getCms();
   const colors = settings.colors ?? {};
   if (colors.midnightNavy) {
     // CSS variables could be overridden per CMS in future
@@ -25,7 +27,11 @@ export default async function PublicLayout({
         Skip to content
       </a>
       <div className="relative z-50">
-        <SiteHeader emblemUrl={settings.brand?.emblem?.url} />
+        <SiteHeader
+          emblemUrl={settings.brand?.emblem?.url}
+          topbar={cms.text("global.header.topbar")}
+          registerLabel={cms.text("global.header.registerLabel")}
+        />
       </div>
       <main id="main" className="relative z-10 w-full min-w-0 flex-1 overflow-x-clip pb-4 max-sm:pb-20">
         {children}
@@ -39,6 +45,10 @@ export default async function PublicLayout({
           hashtags={settings.headlines?.hashtags}
           tagline={settings.headlines?.secondary}
           emblemUrl={settings.brand?.emblem?.url}
+          name={cms.text("global.footer.name")}
+          sub={cms.text("global.footer.sub")}
+          blurb={cms.text("global.footer.blurb")}
+          copyright={cms.text("global.footer.copyright")}
         />
       </div>
       </div>

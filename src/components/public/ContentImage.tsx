@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { Expand } from "lucide-react";
 import { isScheduleAssetUrl } from "@/lib/page-drive-images";
+import { safeImageSrc } from "@/lib/upload-shared";
 
 export type ContentImageSize =
   | "schedule"
@@ -222,7 +223,7 @@ export function ContentImage({
     >
       <div className={`${innerShell} ${spec.box}`}>
         <Image
-          src={src}
+          src={safeImageSrc(src)}
           alt={alt}
           width={spec.w}
           height={spec.h}
@@ -284,7 +285,7 @@ function SchedulePosterLightbox({ src, alt }: { src: string; alt: string }) {
             Close
           </button>
           <Image
-            src={src}
+            src={safeImageSrc(src)}
             alt={alt}
             width={1200}
             height={1800}

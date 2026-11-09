@@ -1,11 +1,13 @@
 ﻿import { InnerPage } from "@/components/public/InnerPage";
 import { HubSections } from "@/components/public/HubSections";
 import { allStandingsHubBlocks } from "@/lib/hub-sections";
+import { getCms, hubBlocksFor } from "@/lib/cms/content";
 
-export default function StandingsPage() {
+export default async function StandingsPage() {
+  const cms = await getCms();
   return (
-    <InnerPage title="League Standings" subtitle="2026-27 through 2028-29 seasons">
-      <HubSections blocks={allStandingsHubBlocks()} />
+    <InnerPage title={cms.text("standings.title")} subtitle={cms.text("standings.subtitle")}>
+      <HubSections blocks={hubBlocksFor(cms, "standings", allStandingsHubBlocks())} />
     </InnerPage>
   );
 }

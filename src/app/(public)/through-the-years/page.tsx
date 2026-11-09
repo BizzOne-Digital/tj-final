@@ -1,12 +1,14 @@
 ﻿import Link from "next/link";
 import { InnerPage } from "@/components/public/InnerPage";
+import { getCms } from "@/lib/cms/content";
 
 const SEASONS = ["2026-27", "2027-28", "2028-29", "2029-30"];
 
-export default function ThroughTheYearsPage() {
+export default async function ThroughTheYearsPage() {
+  const cms = await getCms();
   return (
-    <InnerPage title="Through the Years" subtitle="Select League teams and players from the past">
-      <p>Please take a look at Select League teams and players from past seasons.</p>
+    <InnerPage title={cms.text("through-the-years.title")} subtitle={cms.text("through-the-years.subtitle")}>
+      <p>{cms.text("through-the-years.intro")}</p>
       <ul className="mt-6 space-y-2">
         {SEASONS.map((s) => (
           <li key={s}>

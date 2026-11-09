@@ -42,6 +42,10 @@ export function SiteFooter({
   hashtags,
   tagline,
   emblemUrl,
+  name = "P-O Select League",
+  sub = "Elementary Basketball",
+  blurb = "School-based teams · Grades 3–6 · Central Pennsylvania",
+  copyright = "Philipsburg-Osceola Select Elementary Basketball League",
 }: {
   contact: {
     primaryEmail: string;
@@ -57,6 +61,10 @@ export function SiteFooter({
   hashtags?: string;
   tagline?: string;
   emblemUrl?: string;
+  name?: string;
+  sub?: string;
+  blurb?: string;
+  copyright?: string;
 }) {
   const tags = hashtagTags(hashtags);
   const year = new Date().getFullYear();
@@ -83,10 +91,10 @@ export function SiteFooter({
               ) : null}
               <div>
                 <p className="font-display text-xl font-extrabold uppercase italic tracking-tight text-white lg:text-2xl">
-                  P-O Select League
+                  {name}
                 </p>
                 <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-white/55">
-                  Elementary Basketball
+                  {sub}
                 </p>
               </div>
             </div>
@@ -94,7 +102,7 @@ export function SiteFooter({
               <p className="mt-4 text-sm font-semibold uppercase tracking-wide text-gold">{tagline}</p>
             ) : null}
             <p className="mt-3 text-sm leading-relaxed text-cool-grey">
-              School-based teams · Grades 3–6 · Central Pennsylvania
+              {blurb}
             </p>
             {tags.length > 0 && (
               <ul className="mt-4 flex flex-wrap gap-2">
@@ -232,7 +240,7 @@ export function SiteFooter({
 
       <div className="relative border-t border-white/10 bg-[#01060f]/80">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-6 text-sm text-white/60 lg:flex-row lg:items-center lg:justify-between lg:px-8">
-          <p>© {year} Philipsburg-Osceola Select Elementary Basketball League</p>
+          <p>© {year} {copyright}</p>
           <nav className="flex flex-wrap gap-x-5 gap-y-2">
             {legalLinks.map((l) => (
               <Link key={l.href} href={l.href} className="transition hover:text-white">

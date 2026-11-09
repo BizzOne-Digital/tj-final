@@ -5,18 +5,32 @@ import Link from "next/link";
 import { ArrowRight, Users, Ticket } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 
-const HERO_BG = "/brand/hero-arena.jpg";
+export type HomeHeroText = {
+  eyebrow: string;
+  line1: string;
+  line2: string;
+  line3: string;
+  cta1: string;
+  cta2: string;
+  badgeYear: string;
+  badgeLabel: string;
+  badgeGold: string;
+  stat1: string;
+  bg: string;
+};
 
 export function HomeHero({
   emblemUrl,
   supporting,
   firstTeamCents,
   capacity,
+  text,
 }: {
   emblemUrl?: string;
   supporting?: string;
   firstTeamCents: number;
   capacity: number;
+  text: HomeHeroText;
 }) {
   const reduced = useReducedMotion();
   const price = Math.round(firstTeamCents / 100);
@@ -24,7 +38,7 @@ export function HomeHero({
   return (
     <section className="relative min-h-[min(100vh,920px)] w-full max-w-full overflow-hidden bg-[#020a18]">
       <Image
-        src={HERO_BG}
+        src={text.bg}
         alt=""
         fill
         priority
@@ -50,11 +64,11 @@ export function HomeHero({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ type: "spring", stiffness: 120, damping: 20 }}
               >
-                Philipsburg-Osceola
+                {text.eyebrow}
               </motion.p>
 
               <h1 className="sr-only">
-                SMALL HANDS. BIG DREAMS. TOGETHER WE RAISE.
+                {text.line1} {text.line2} {text.line3}
               </h1>
               <div className="mt-3 font-display uppercase italic leading-[0.92] tracking-tight" aria-hidden>
                 <motion.span
@@ -63,7 +77,7 @@ export function HomeHero({
                   animate={{ opacity: 1, y: 0, rotate: 0 }}
                   transition={{ type: "spring", stiffness: 110, damping: 18, delay: 0.05 }}
                 >
-                  Small Hands.
+                  {text.line1}
                 </motion.span>
                 <motion.span
                   className="block bg-gradient-to-r from-[#5ec8ff] via-[#3d8bff] to-[#7ee0ff] bg-clip-text text-[clamp(2.5rem,7vw,5.25rem)] font-extrabold text-transparent drop-shadow-[0_0_40px_rgba(61,139,255,0.55)]"
@@ -71,7 +85,7 @@ export function HomeHero({
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.15 }}
                 >
-                  Big Dreams.
+                  {text.line2}
                 </motion.span>
                 <motion.span
                   className="block text-[clamp(2.25rem,6.5vw,4.75rem)] font-extrabold text-white"
@@ -85,7 +99,7 @@ export function HomeHero({
                   animate={{ opacity: 1, clipPath: "inset(0)" }}
                   transition={{ duration: reduced ? 0 : 0.7, delay: 0.28, ease: "easeOut" }}
                 >
-                  Together We Raise.
+                  {text.line3}
                 </motion.span>
               </div>
 
@@ -109,14 +123,14 @@ export function HomeHero({
                   href="/booking"
                   className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#2b8cff] to-[#5eb5ff] px-6 py-3 text-xs font-bold uppercase tracking-wide text-white shadow-[0_0_35px_rgba(46,140,255,0.55)] transition hover:shadow-[0_0_50px_rgba(46,140,255,0.7)] sm:text-sm"
                 >
-                  Register Your Team
+                  {text.cta1}
                   <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
                 </Link>
                 <Link
                   href="/teams"
                   className="inline-flex items-center gap-2 rounded-full border border-white/35 bg-white/5 px-6 py-3 text-xs font-bold uppercase tracking-wide text-white backdrop-blur-sm transition hover:border-electric-blue/60 hover:bg-white/10 sm:text-sm"
                 >
-                  Explore the League
+                  {text.cta2}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </motion.div>
@@ -135,10 +149,10 @@ export function HomeHero({
                 transition={{ delay: 0.35 }}
               >
                 <p className="skew-x-[12deg] text-center font-display text-2xl font-bold italic text-white">
-                  2026-27
+                  {text.badgeYear}
                 </p>
                 <p className="skew-x-[12deg] text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-electric-blue">
-                  Winter League
+                  {text.badgeLabel}
                 </p>
               </motion.div>
               <motion.div
@@ -148,7 +162,7 @@ export function HomeHero({
                 transition={{ delay: 0.5 }}
               >
                 <p className="skew-x-[12deg] text-[10px] font-bold uppercase tracking-wider text-[#1a1205]">
-                  State Championship Invites
+                  {text.badgeGold}
                 </p>
               </motion.div>
             </div>
@@ -157,7 +171,7 @@ export function HomeHero({
 
         <div className="relative border-t border-white/10 bg-[#020a18]/75 backdrop-blur-md">
           <div className="mx-auto grid max-w-6xl grid-cols-1 divide-y divide-white/10 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-            <HeroStat icon={Users} label="Grades 3-6" />
+            <HeroStat icon={Users} label={text.stat1} />
             <HeroStat icon={Ticket} label={`$${price} Per Team`} />
             <HeroStat icon={BasketballIcon} label={`${capacity} Teams Per Division`} />
           </div>

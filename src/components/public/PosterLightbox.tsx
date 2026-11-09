@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { safeImageSrc } from "@/lib/upload-shared";
 import { useState } from "react";
 import { Expand } from "lucide-react";
 
@@ -54,7 +55,7 @@ export function PosterLightbox({
           }
         >
           <Image
-            src={src}
+            src={safeImageSrc(src)}
             alt={alt}
             width={imgW}
             height={imgH}
@@ -87,7 +88,7 @@ export function PosterLightbox({
             Close
           </button>
           <Image
-            src={src}
+            src={safeImageSrc(src)}
             alt={alt}
             width={imgW}
             height={imgH}

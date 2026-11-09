@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { ContentImage } from "@/components/public/ContentImage";
-import { schoolTeamImage } from "@/lib/drive-assets";
+import { getCms } from "@/lib/cms/content";
+import { schoolMedia } from "@/lib/cms/school-media";
 import type { JsonDoc } from "@/lib/services/league";
 
-export function SchoolDirectoryCard({
+export async function SchoolDirectoryCard({
   school,
   layout = "list",
 }: {
@@ -12,7 +13,7 @@ export function SchoolDirectoryCard({
   layout?: "list" | "grid";
 }) {
   const slug = String(school.slug);
-  const img = schoolTeamImage(slug);
+  const img = schoolMedia(await getCms(), slug).team;
   const stacked = layout === "grid";
 
   return (
