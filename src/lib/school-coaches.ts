@@ -29,6 +29,10 @@ export const SCHOOL_COACH_BLOCKS: Partial<Record<string, SchoolCoachBlock[]>> = 
       divisionKey: "grades-5-6",
       coaches: ["Jimmy Thompson"],
     },
+    {
+      divisionKey: "grades-3-4",
+      coaches: ["Jason Gill"],
+    },
   ],
   punxsutawney: [
     {

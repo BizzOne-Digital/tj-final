@@ -16,6 +16,7 @@ const copies = [
   ["__tyrone_56_schedule__", "schools/tyrone/schedule.jpg"],
   ["CLEARFIELD/AF1993F2-7E78-431E-A2EC-BDF1F3BD6EB6.PNG", "schools/clearfield/team.png"],
   ["__clearfield_56_schedule__", "schools/clearfield/schedule.jpg"],
+  ["__clearfield_34_schedule__", "schools/clearfield/schedule-grades-3-4.png"],
   ["BELLWOOD/CDD48F70-9FD5-4AE0-83F1-3EDB4A613FDD.PNG", "schools/bellwood-antis/team.png"],
   ["BELLWOOD/Schedule/E3CF84D6-FF4E-488A-8536-4B8A2AC211ED.PNG", "schools/bellwood-antis/schedule.png"],
   // 3/4 grade poster — committed under league-assets when not in Drive export
@@ -38,8 +39,8 @@ const copies = [
   ["__mifflin_purple_schedule__", "schools/mifflin-county/schedule-4th-grade-purple.jpg"],
   ["__west_branch_4th_schedule__", "schools/west-branch/schedule-1.jpg"],
   ["__west_branch_56_schedule__", "schools/west-branch/schedule-2.jpg"],
-  ["__league_34_schedule__", "information/4th-grade-team-schedules.jpg"],
-  ["__league_56_schedule__", "information/6th-grade-team-schedules.jpg"],
+  ["__league_34_schedule__", "information/4th-grade-team-schedules-v2.png"],
+  ["__league_56_schedule__", "information/6th-grade-team-schedules-v2.png"],
   ["INFORMATION/CENTRAL PA LIONS/Pictures/IMG_0074.jpg", "central-pa-lions/1.jpg"],
   ["INFORMATION/CENTRAL PA LIONS/Pictures/IMG_0076.jpg", "central-pa-lions/2.jpg"],
   ["INFORMATION/CENTRAL PA LIONS/Pictures/IMG_0077.jpg", "central-pa-lions/3.jpg"],
@@ -175,6 +176,7 @@ for (const [rel, destRel] of copies) {
     rel === "__bellwood_56_blue__" ||
     rel === "__tyrone_56_schedule__" ||
     rel === "__clearfield_56_schedule__" ||
+    rel === "__clearfield_34_schedule__" ||
     rel === "__po_3_schedule__" ||
     rel === "__po_4_schedule__" ||
     rel === "__po_56_schedule__" ||

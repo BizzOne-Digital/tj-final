@@ -25,7 +25,7 @@ export function schoolTeamImage(slug: string): string | undefined {
 
 const scheduleKeysBySlug: Record<string, string[]> = {
   tyrone: ["schools.tyrone.schedule"],
-  clearfield: ["schools.clearfield.schedule"],
+  clearfield: ["schools.clearfield.schedule-grades-3-4", "schools.clearfield.schedule"],
   "bellwood-antis": [
     "schools.bellwood-antis.schedule-grades-3-4",
     "schools.bellwood-antis.schedule-grades-5-6-blue",

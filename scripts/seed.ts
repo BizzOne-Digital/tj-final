@@ -156,7 +156,10 @@ const SCHOOLS = [
     name: "Clearfield",
     programLink:
       "https://www.facebook.com/share/19Q6PDtnjG/?mibextid=wwXIfr",
-    coaches: [{ divisionKey: "grades-5-6", coaches: ["Jimmy Thompson"] }],
+    coaches: [
+      { divisionKey: "grades-5-6", coaches: ["Jimmy Thompson"] },
+      { divisionKey: "grades-3-4", coaches: ["Jason Gill"] },
+    ],
   },
   {
     stableKey: "bellwood-antis",
