@@ -11,6 +11,30 @@ export type HubBlock = {
   children?: HubBlock[];
 };
 
+const WEEK1_6TH_DIR = "/league-assets/scores/2026-27/6th-grade-week-1";
+const WEEK1_6TH_IMAGES: { file: string; alt: string }[] = [
+  { file: "standings", alt: "6th Grade Week 1 standings, November 21, 2026" },
+  { file: "po-6th-vs-po-5th", alt: "P-O 6th Grade 58, P-O 5th Grade 12" },
+  { file: "po-5th-vs-punxsutawney", alt: "P-O 5th Grade 23, Punxsutawney 11" },
+  { file: "bellwood-vs-west-branch", alt: "Bellwood 44, West Branch 19" },
+  { file: "punxsutawney-vs-clearfield", alt: "Punxsutawney 35, Clearfield 20" },
+  { file: "po-6th-vs-clearfield", alt: "P-O 6th Grade 72, Clearfield 11" },
+  { file: "bellwood-vs-tyrone", alt: "Bellwood 47, Tyrone 43" },
+  { file: "tyrone-vs-mo-valley", alt: "Tyrone 76, Mo Valley (score unconfirmed)" },
+  { file: "west-branch-vs-mo-valley", alt: "West Branch 28, Mo Valley 0 (scorebook result)" },
+];
+
+/** Week 1 (Nov 21, 2026) 6th Grade results: coach's note plus standings and game recaps. */
+const WEEK1_6TH_HTML = `<p><strong>P-O Select League | 6th Grade Week 1 Results</strong></p>
+<p>Coaches,</p>
+<p>Here is a look at the results from yesterday's 6th Grade Select League games. We enjoyed watching your teams compete and appreciate everyone who helped make opening weekend a great one.</p>
+<p>Please share the game recaps with your players and families. We look forward to seeing everyone back on the court in a few weeks!</p>
+<p>Thank you,<br/>Coach Anderson</p>
+${WEEK1_6TH_IMAGES.map(
+  (i) =>
+    `<p><img src="${WEEK1_6TH_DIR}/${i.file}.png" alt="${i.alt}" loading="lazy" style="width:100%;max-width:640px;height:auto;border-radius:8px" /></p>`,
+).join("\n")}`;
+
 export function seasonStandingsBlocks(season: string): HubBlock[] {
   const blocks: HubBlock[] = [
     { id: `${season}-header`, title: `${season} Season`, level: 2 },
@@ -22,12 +46,13 @@ export function seasonStandingsBlocks(season: string): HubBlock[] {
       title: `${grade} Standings`,
       level: 3,
       body: COMING_SOON,
-      children: Array.from({ length: 7 }, (_, i) => ({
-        id: `${season}-${g}-week-${i + 1}`,
-        title: `Week ${i + 1} Scores`,
-        level: 4,
-        body: COMING_SOON,
-      })),
+      children: Array.from({ length: 7 }, (_, i) => {
+        const id = `${season}-${g}-week-${i + 1}`;
+        const base = { id, title: `Week ${i + 1} Scores`, level: 4 as const };
+        return id === "2026-27-6th-grade-week-1"
+          ? { ...base, html: WEEK1_6TH_HTML }
+          : { ...base, body: COMING_SOON };
+      }),
     });
   }
   blocks.push(
