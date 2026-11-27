@@ -4,6 +4,7 @@ import {
   PLAYER_OF_GAME_PROCESS_HTML,
   TESTIMONIALS_BLURB,
 } from "@/lib/league-copy";
+import { gameLinksForSchool } from "@/lib/game-links";
 import { TeamFormLinks } from "@/components/public/TeamFormLinks";
 import { getCms } from "@/lib/cms/content";
 import { schoolMedia } from "@/lib/cms/school-media";
@@ -62,8 +63,8 @@ export async function SchoolTeamSections({
             <ContentImage
               src={teamImg}
               alt={`${school.name} team photo`}
-              size="schoolTeam"
-              frameClassName="!mx-0 sm:mx-auto"
+              size="schoolTeamFill"
+              frameClassName="!mx-0"
             />
           </div>
         </section>
@@ -116,15 +117,36 @@ export async function SchoolTeamSections({
           Use the weekly forms above when your coach opens them for each league day.
         </p>
         <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-          {WEEKLY_PLACEHOLDERS.map((w) => (
-            <li
-              key={w}
-              className="rounded-lg border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-cool-grey"
-            >
-              <span className="font-semibold text-ice-white">{w}</span>
-              <span className="mt-1 block text-xs">Links posted when the week is active.</span>
-            </li>
-          ))}
+          {WEEKLY_PLACEHOLDERS.map((w) => {
+            const games = gameLinksForSchool(slug, w);
+            return (
+              <li
+                key={w}
+                className="rounded-lg border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-cool-grey"
+              >
+                <span className="font-semibold text-ice-white">{w}</span>
+                {games.length > 0 ? (
+                  <ul className="mt-2 space-y-2">
+                    {games.map((g) => (
+                      <li key={g.url}>
+                        <a
+                          href={g.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-electric-blue hover:underline"
+                        >
+                          Watch: {g.title} ↗
+                        </a>
+                        {g.date ? <span className="block text-xs">{g.date}</span> : null}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <span className="mt-1 block text-xs">Links posted when the week is active.</span>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </section>
 

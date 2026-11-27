@@ -13,6 +13,7 @@ export type ContentImageSize =
   | "galleryPhoto"
   | "schoolTeam"
   | "schoolTeamDirectory"
+  | "schoolTeamFill"
   | "compact"
   | "sectionFill"
   | "feature"
@@ -73,6 +74,14 @@ const SPECS: Record<ContentImageSize, SizeSpec> = {
     maxW: 176,
     w: 220,
     h: 300,
+  },
+  schoolTeamFill: {
+    frame: "w-full max-w-[16rem] sm:max-w-[18rem]",
+    box: "relative flex aspect-square w-full items-center justify-center p-0",
+    maxH: 288,
+    maxW: 288,
+    w: 600,
+    h: 600,
   },
   schoolTeamDirectory: {
     frame: "w-full min-w-0 max-w-none",
@@ -202,6 +211,7 @@ export function ContentImage({
   const isLandscapePoster = resolved === "landscapePoster";
   const isDivisionBanner = resolved === "divisionBanner";
   const isCertBadge = resolved === "certBadge";
+  const isTeamFill = resolved === "schoolTeamFill";
   const isNaturalFullWidth =
     resolved === "schedulePoster" || resolved === "galleryPhoto" || resolved === "programPoster";
   const fillFrame =
@@ -209,6 +219,7 @@ export function ContentImage({
     isLandscapePoster ||
     isDivisionBanner ||
     isCertBadge ||
+    isTeamFill ||
     isNaturalFullWidth;
   const innerShell = fillFrame
     ? isNaturalFullWidth || isLandscapePoster
@@ -229,7 +240,7 @@ export function ContentImage({
           height={spec.h}
           priority={priority}
           onLoad={() => setLoaded(true)}
-          className={`object-contain object-center transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"} ${
+          className={`${isTeamFill ? "object-cover" : "object-contain"} object-center transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"} ${
             isNaturalFullWidth
               ? "h-auto w-full max-w-full"
               : fillFrame
@@ -239,7 +250,9 @@ export function ContentImage({
           style={
             isNaturalFullWidth
               ? { width: "100%", height: "auto", maxHeight: "none", maxWidth: "100%" }
-              : fillFrame
+              : isTeamFill
+                ? { width: "100%", height: "100%", maxHeight: "none", maxWidth: "100%" }
+                : fillFrame
                 ? { maxHeight: spec.maxH, maxWidth: "100%" }
                 : { maxHeight: spec.maxH, maxWidth: spec.maxW }
           }
